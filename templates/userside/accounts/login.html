@@ -14,7 +14,7 @@
 		<meta name="viewport" content="width=device-width, shrink-to-fit=9">
 		<meta name="description" content="Gambolthemes">
 		<meta name="author" content="Gambolthemes">		
-		<title>Gambo - Sign In</title>
+		<title>PalettePassion - Sign In</title>
 		
 		<!-- Favicon Icon -->
 		<link rel="icon" type="image/png" href="images/fav.png">
@@ -43,12 +43,13 @@
 				<div class="col-lg-5">
 					<div class="sign-form">
 						<div class="sign-inner">
-							<div class="sign-logo" id="logo">
-								<a href="index-2.html"><img src="{% static 'images/logo.svg' %}" alt=""></a>
-								<a href="index-2.html"><img class="logo-inverse" src="{% static 'images/dark-logo.svg' %}" alt=""></a>
-							</div>
+							
 							<div class="form-dt">
 								<div class="form-inpts checout-address-step">
+									<div class="sign-logo" id="logo">
+										<a href="index-2.html"><img src="{% static 'images/logo.svg' %}" alt=""></a>
+										<a href="index-2.html"><img class="logo-inverse" src="{% static 'images/dark-logo.svg' %}" alt=""></a>
+									</div>
 									<form action="{% url 'login' %}" method="POST">
                                         {% csrf_token %}
 
@@ -76,7 +77,7 @@
 						</div>
 					</div>
 					<div class="copyright-text text-center mt-3">
-						<i class="uil uil-copyright"></i>Copyright 2020 <b>Gambolthemes</b> . All rights reserved
+						<i class="uil uil-copyright"></i>Copyright 2024 <b>PalettePassion</b> . All rights reserved
 					</div>
 				</div>
 			</div>

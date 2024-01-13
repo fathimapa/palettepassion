@@ -1,15 +1,30 @@
 <div class="col-lg-3 col-md-4">
     <div class="left-side-tabs">
         <div class="dashboard-left-links">
-            <a href="{% url 'dashboard' %}" class="user-item active"><i class="uil uil-apps"></i>Overview</a>
-            <a href="{% url 'my_orders' %}" class="user-item"><i class="uil uil-box"></i>My Orders</a>
-            <a href="dashboard_my_rewards.html" class="user-item"><i class="uil uil-gift"></i>My Rewards</a>
-            <a href="{% url 'my_wishlist' %}" class="user-item"><i class="uil uil-heart"></i>Shopping Wishlist</a>
-            <a href="{% url 'my_address' %}" class="user-item"><i class="uil uil-location-point"></i>My Address</a>
-            <a href="{% url 'my_wallet' %}" class="user-item"><i class="uil uil-wallet"></i>My Wallet</a>
-            <a href="{% url 'edit_profile' %}" class="user-item"><i class="uil uil-user"></i>Edit Profile</a>
-            <a href="{% url 'change_password' %}" class="user-item"><i class="uil uil-user"></i>Change Password</a>
-            <a href="{% url 'logout' %}" class="user-item"><i class="uil uil-exit"></i>Logout</a>
+            <a href="{% url 'dashboard' %}" class="user-item {% if request.path == '/dashboard/' %}active{% endif %}">
+                <i class="uil uil-apps"></i>Overview
+            </a>
+            <a href="{% url 'my_orders' %}" class="user-item {% if request.path == '/my_orders/' %}active{% endif %}">
+                <i class="uil uil-box"></i>My Orders
+            </a>
+            <a href="{% url 'my_wishlist' %}" class="user-item {% if request.path == '/my_wishlist/' %}active{% endif %}">
+                <i class="uil uil-heart"></i>Shopping Wishlist
+            </a>
+            <a href="{% url 'my_address' %}" class="user-item {% if request.path == '/my_address/' %}active{% endif %}">
+                <i class="uil uil-location-point"></i>My Address
+            </a>
+            <a href="{% url 'my_wallet' %}" class="user-item {% if request.path == '/my_wallet/' %}active{% endif %}">
+                <i class="uil uil-wallet"></i>My Wallet
+            </a>
+            <a href="{% url 'edit_profile' %}" class="user-item {% if request.path == '/edit_profile/' %}active{% endif %}">
+                <i class="uil uil-user"></i>Edit Profile
+            </a>
+            <a href="{% url 'change_password' %}" class="user-item {% if request.path == '/change_password/' %}active{% endif %}">
+                <i class="uil uil-user"></i>Change Password
+            </a>
+            <a href="{% url 'logout' %}" class="user-item {% if request.path == '/logout/' %}active{% endif %}">
+                <i class="uil uil-exit"></i>Logout
+            </a>
         </div>
     </div>
 </div>

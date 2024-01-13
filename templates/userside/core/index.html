@@ -22,11 +22,11 @@
 										<img src="{{ban.banner.url}}" alt="">
 									</div>
 									<div class="offer-text-dt">
-										<div class="offer-top-text-banner">
+										<!-- <div class="offer-top-text-banner">
 											<p>6% Off</p>
 											<div class="top-text-1">Buy More & Save More</div>
 											<span>Fresh Vegetables</span>
-										</div>
+										</div> -->
 										<a href="#" class="Offer-shop-btn hover-btn">{{ban.button_text}}</a>
 										
 									</div>
@@ -89,7 +89,7 @@
 							<a href="{{ product.get_url }}" class="product-img">
 								<img src="{{ product.image.url }}" alt="">
 								<div class="product-absolute-options">
-									<span class="offer-badge-1">6% off</span>
+									<!-- <span class="offer-badge-1">6% off</span> -->
 									<span class="like-icon" title="wishlist"></span>
 								</div>
 							</a>
@@ -140,15 +140,13 @@
 							<a href="#" class="see-more-btn">See All</a>
 						</div>
 					</div>
-					<div class="col-md-12">
-						<div class="owl-carousel featured-slider owl-theme">
-							{% for product in products %}
-								<div class="item">
+					{% for product in products %}
+					<div class="col-md-3">
 									<div class="product-item">
 										<a href="{{ product.get_url }}" class="product-img">
 											<img src="{{product.image.url}}" alt="">
 											<div class="product-absolute-options">
-												<span class="offer-badge-1">6% off</span>
+												<!-- <span class="offer-badge-1">6% off</span> -->
 												<span class="like-icon" title="wishlist"></span>
 											</div>
 										</a>
@@ -157,9 +155,9 @@
 											<a href="{{ product.get_url }}">{{product.product_name}}</a>
 											<div class="product-price">${{product.price}}</div>
 											<div class="qty-cart">
-												<a href="{% url 'add_cart' product.id %}" class="btn w-100 btn-dark">
+												<a href="{{ product.get_url }}" class="btn w-100 btn-dark">
 													<span class="cart-icon"><i class="uil uil-shopping-cart-alt"></i></span>
-														Add to cart </a>
+														SHOW</a>
 											</div>
 										</div>
 									</div>
@@ -168,8 +166,7 @@
 						</div>
 					</div>
 				</div>
-			</div>
-		</div>
+			
 		<!-- Vegetables and Fruits Products End -->
 		<!-- New Products Start -->
 		<div class="section145">
@@ -184,15 +181,13 @@
 							<a href="#" class="see-more-btn">See All</a>
 						</div>
 					</div>
-					<div class="col-md-12">
-						<div class="owl-carousel featured-slider owl-theme">
 							{% for product in products %}
-								<div class="item">
+								<div class="col-md-3">
 									<div class="product-item">
 										<a href="{{ product.get_url }}" class="product-img">
 											<img src="{{product.image.url}}" alt="">
 											<div class="product-absolute-options">
-												<span class="offer-badge-1">6% off</span>
+												<!-- <span class="offer-badge-1">6% off</span> -->
 												<span class="like-icon" title="wishlist"></span>
 											</div>
 										</a>
@@ -209,8 +204,7 @@
 									</div>
 								</div>
 							{% endfor %}
-						</div>
-					</div>
+						
 				</div>
 			</div>
 		</div>

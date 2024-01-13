@@ -568,12 +568,12 @@ input[type=text] {
 
 .search120 {
     float: left;
-    margin-left: 35px;
+    margin-left: 59px;
     width: 25%;
 }
 
 .main_logo img {
-    width: 100%;
+    width: 173%;
     padding-top: 0;
 }
 
@@ -659,7 +659,7 @@ i.icon1 {
 
 .option_links:hover,
 .option_links:focus {
-    color: #2b2f4c !important;
+    color: #000000 !important;
 }
 
 .noti_count {
@@ -824,14 +824,14 @@ i.icon1 {
 }
 
 .ui.dropdown .menu>.channel_item {
-    color: #2b2f4c !important;
+    color: #000000 !important;
     padding: .78571429rem 1.14285714rem !important;
     font-size: 14px !important;
     font-weight: 400 !important;
 }
 
 .ui.dropdown .menu>.channel_item:hover {
-    color: #2b2f4c !important;
+    color: #000000 !important;
     background: #ffecec !important;
 }
 
@@ -901,7 +901,7 @@ i.icon1 {
     font-size: 14px;
     font-weight: 400;
     margin-right: 18px;
-    color: #2b2f4c;
+    color: #000000;
     margin-left: 6px;
 }
 
@@ -914,12 +914,13 @@ i.icon1 {
     margin-right: 3px;
 }
 
+
 .sub-header-group {
     float: left;
     width: 100%;
     display: block;
     border-top: 1px solid #efefef;
-    background-color: rgb(29, 29, 29);
+    background-color: rgb(0, 0, 0);
 }
 
 .sub-header {
@@ -941,7 +942,7 @@ i.icon1 {
     font-weight: 400;
 }
 .pathummma{
-    background-color:  rgb(29, 29, 29);
+    background-color:  rgb(0, 0, 0);
 }
 
 .navbar-light .main_nav .nav-link.active {
@@ -971,14 +972,14 @@ i.icon1 {
 
 .hover-btn:hover {
     background: #000000;
-    color: #fff !important;
+    color: #ffffff !important;
     transition: all .2s ease-in-out;
     -webkit-transition: all 0.2s ease-in-out;
     -o-transition: all 0.2s ease-in-out;
     -ms-transition: all 0.2s ease-in-out;
     -webkit-transition: all 0.2s ease-in-out;
-    background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, 0.9), rgba(75, 75, 74, 0.9));
-    background-image: linear-gradient(to right, rgba(107, 107, 107, 0.9), rgba(61, 60, 60, 0.9));
+    background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9));
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9));
 }
 
 .cart__btn ins {
@@ -990,7 +991,7 @@ i.icon1 {
 .category_drop {
     padding: 24px 30px;
     font-size: 14px;
-    color: #2b2f4c;
+    color: #ffffff;
     position: relative;
     font-weight: 500;
     border-right: 1px solid #efefef;
