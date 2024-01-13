@@ -36,6 +36,7 @@ __pycache__/
 .Python
 env/
 build/
+media/
 develop-eggs/
 dist/
 downloads/
@@ -85,12 +86,8 @@ target/
 __pycache__/
 local_settings.py
 
-
-#media file
-/media/*
+ 
 
 .env
 db.sqlite3
-
-#.env file
-palettepassion/.env
+ 
