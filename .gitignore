@@ -87,7 +87,7 @@ local_settings.py
 
 
 #media file
-*.media/
+media
 
 .env
 db.sqlite3
