@@ -1,0 +1,385 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- Mirrored from gambolthemes.net/html-items/gambo_supermarket_demo/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 12 Jun 2020 15:07:01 GMT -->
+
+<!-- Mirrored from ecart.shaktiwebsolutions.com/gambo_supermarket_demo/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 15 Sep 2023 14:47:14 GMT -->
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, shrink-to-fit=9">
+	<meta name="description" content="Gambolthemes">
+	<meta name="author" content="Gambolthemes">
+	<title>Gambo - Index</title>
+
+	<!-- Favicon Icon -->
+	<link rel="icon" type="image/png" href="images/fav.png">
+
+	<!-- Stylesheets -->
+	<link href="../fonts.googleapis.com/css2e949e949.html?family=Rajdhani:wght@300;400;500;600;700&amp;display=swap"
+		rel="stylesheet">
+	<link href="{% static 'vendor/unicons-2.0.1/css/unicons.css' %}" rel='stylesheet'>
+	<link href="{% static 'css/style.css' %}" rel="stylesheet">
+	<link href="{% static 'css/responsive.css' %}" rel="stylesheet">
+	<link href="{% static 'css/night-mode.css' %}" rel="stylesheet">
+	<link href='{% static "css/step-wizard.css" %}' rel="stylesheet">
+	<link rel="stylesheet" href="{% static 'flags/sprite.css' %}">
+
+
+
+	<!-- Vendor Stylesheets -->
+	<link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet">
+	<link href="{% static 'vendor/OwlCarousel/assets/owl.carousel.css' %}" rel="stylesheet">
+	<link href="{% static 'vendor/OwlCarousel/assets/owl.theme.default.min.css' %}" rel="stylesheet">
+	<link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/semantic/semantic.min.css' %}">
+	<!-- <script src='http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js'></script> -->
+	<script src='http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js'></script>
+
+	<script src='{% static "js/jquery.zoom.js" %}'></script>
+
+</head>
+
+<body>
+	<!-- Category Model Start-->
+	<div id="category_model" class="header-cate-model main-gambo-model modal fade" tabindex="-1" role="dialog"
+		aria-modal="false">
+		<div class="modal-dialog category-area" role="document">
+
+			<div class="category-area-inner">
+				<div class="modal-header">
+					<button type="button" class="close btn-close" data-dismiss="modal" aria-label="Close">
+						<i class="uil uil-multiply"></i>
+					</button>
+				</div>
+				<div class="category-model-content modal-content">
+					<div class="cate-header">
+						<h4>Select Category</h4>
+					</div>
+					<ul class="category-by-cat">
+						{% for category in links %}
+						<li>
+
+							<a href="{{ category.get_url }}" class="single-cat-item">
+								<div class="icon">
+
+									<img src="{{ category.category_image.url }}" alt="">
+								</div>
+								<div class="text">{{ category.category_name }} </div>
+							</a>
+
+						</li>
+						{% endfor %}
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Category Model End-->
+	<!-- Search Model Start-->
+	<div id="search_model" class="header-cate-model main-gambo-model modal fade" tabindex="-1" role="dialog"
+		aria-modal="false">
+		<div class="modal-dialog search-ground-area" role="document">
+			<div class="category-area-inner">
+				<div class="modal-header">
+					<button type="button" class="close btn-close" data-dismiss="modal" aria-label="Close">
+						<i class="uil uil-multiply"></i>
+					</button>
+				</div>
+				<div class="category-model-content modal-content">
+					<div class="search-header">
+						<form action="{% url 'search' %}">
+							<input type="search" name="keyword" placeholder="Search for products...">
+							<button type="submit"><i class="uil uil-search"></i></button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Search Model End-->
+
+	<!-- Header Start -->
+	<header class="header clearfix">
+		<div class="top-header-group">
+			<div class="top-header">
+				<div class="res_main_logo">
+					<a href="index.html"><img src="{% static 'images/dark-logo-1.svg' %}" alt=""></a>
+				</div>
+				<div class="main_logo" id="logo">
+					<a href="index.html"><img src="{% static 'images/logo.svg' %}" alt=""></a>
+					<a href="index.html"><img class="logo-inverse" src="{% static 'images/dark-logo.svg' %}" alt=""></a>
+				</div>
+				
+				<div class="search120">
+
+					<form action="{% url 'search' %}" class="d-flex" method="GET">
+						<input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"
+							name="keyword">
+						<button class="btn btn-outline-dark" type="submit">Search</button>
+					</form>
+
+				</div>
+				<div class="header_right">
+					<ul>
+						<li>
+							<a href="#" class="offer-link"><i class="uil uil-phone-alt"></i>1800-000-000</a>
+						</li>
+						<li>
+							<a href="" class="offer-link"><i class="uil uil-gift"></i>Offers</a>
+						</li>
+						<li>
+							<a href="" class="option_links" title="Wishlist"><i
+									class='uil uil-heart icon_wishlist'></i><span class="noti_count1">3</span></a>
+						</li>
+
+						{% if user.id is None%}
+						<a href="{% url 'login' %}" class="opts_account">
+							<img src="{% static 'images/avatar/img-5.jpg' %}" alt="">
+							<span class="user__name">Login</span>
+
+						</a>
+						{% else %}
+						<li class="ui dropdown">
+							<a href="#" class="opts_account">
+								<img src="{% static 'images/avatar/img-5.jpg' %}" alt="">
+								<span class="user__name">{{user.username}}</span>
+								<i class="uil uil-angle-down"></i>
+							</a>
+							<div class="menu dropdown_account">
+								<div class="night_mode_switch__btn">
+									<a href="#" id="night-mode" class="btn-night-mode">
+										<i class="uil uil-moon"></i> Night mode
+										<span class="btn-night-mode-switch">
+											<span class="uk-switch-button"></span>
+										</span>
+									</a>
+								</div>
+								<a href="{% url 'dashboard' %}" class="item channel_item"><i
+										class="uil uil-apps icon__1"></i>Dashbaord</a>
+								<a href="{% url 'logout' %}" class="item channel_item"><i
+										class="uil uil-lock-alt icon__1"></i>Logout</a>
+							</div>
+						</li>
+
+						{% endif %}
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="sub-header-group">
+			<div class="sub-header">
+				<div class="ui dropdown">
+					<a href="#" class="category_drop hover-btn" data-toggle="modal" data-target="#category_model"
+						title="Categories"><i class="uil uil-apps"></i><span class="cate__icon">Select
+							Category</span></a>
+				</div>
+				<nav class="navbar navbar-expand-lg navbar-light py-3">
+					<div class="container-fluid">
+						<button class="navbar-toggler menu_toggle_btn" type="button"
+							data-target="#navbarSupportedContent"><i class="uil uil-bars"></i></button>
+						<div class="pathummma collapse navbar-collapse d-flex flex-column flex-lg-row flex-xl-row justify-content-lg-end bg-dark1 p-3 p-lg-0 mt1-5 mt-lg-0 mobileMenu"
+							id="navbarSupportedContent">
+							<ul class="navbar-nav main_nav align-self-stretch pathummma">
+								<li class="nav-item"><a href="{% url 'index' %}" class="nav-link active"
+										title="Home">Home</a></li>
+								<li class="nav-item"><a href="{% url 'store' %}" class="nav-link new_item"
+										title="New Products">Store</a></li>
+								<li class="nav-item"><a href="contact_us.html" class="nav-link" title="Contact">Contact
+										Us</a></li>
+							</ul>
+						</div>
+					</div>
+				</nav>
+				<div class="catey__icon">
+					<a href="#" class="cate__btn" data-toggle="modal" data-target="#category_model"
+						title="Categories"><i class="uil uil-apps"></i></a>
+				</div>
+				<div class="header_cart order-1">
+					<a href="{% url 'cart' %}" class="cart__btn hover-btn" title="Cart"><i
+							class="uil uil-shopping-cart-alt"></i><span>Cart</span><ins id="cart"></ins></a>
+				</div>
+				<div class="search__icon order-1">
+					<a href="#" class="search__btn hover-btn" data-toggle="modal" data-target="#search_model"
+						title="Search"><i class="uil uil-search"></i></a>
+				</div>
+			</div>
+		</div>
+	</header>
+	<!-- Header End -->
+
+
+	{% block content %}
+
+	{% endblock content %}
+
+
+	<!-- Footer Start -->
+	<footer class="footer">
+		<div class="footer-first-row">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-6 col-sm-6">
+						<ul class="call-email-alt">
+							<li><a href="" class="callemail"><i class="uil uil-dialpad-alt"></i>1800-000-000</a></li>
+							<li><a href="" class="callemail"><i
+										class="uil uil-envelope-alt"></i>info@gambosupermarket.com</a></li>
+						</ul>
+					</div>
+					<div class="col-md-6 col-sm-6">
+						<div class="social-links-footer">
+							<ul>
+								<li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+								<li><a href="#"><i class="fab fa-twitter"></i></a></li>
+								<li><a href="#"><i class="fab fa-google-plus-g"></i></a></li>
+								<li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
+								<li><a href="#"><i class="fab fa-instagram"></i></a></li>
+								<li><a href="#"><i class="fab fa-pinterest-p"></i></a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="footer-second-row">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-4 col-md-4 col-sm-4">
+						<div class="second-row-item">
+							<h4>Categories</h4>
+							<ul>
+								{% for category in links %}
+								<li><a href="{{ category.get_url }}">{{ category.category_name }}</a></li>
+								{% endfor %}
+							</ul>
+						</div>
+					</div>
+					<div class="col-lg-4 col-md-4 col-sm-4">
+						<div class="second-row-item">
+							<h4>Useful Links</h4>
+							<ul>
+								<li><a href="shop_grid.html">Featured Products</a></li>
+								<li><a href="offers.html">Offers</a></li>
+								<li><a href="contact_us.html">Contact Us</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-lg-4 col-md-4 col-sm-4">
+						<div class="second-row-item-app">
+							<h4>Download App</h4>
+							<ul>
+								<li><a href="#"><img class="download-btn" src="{% static 'images/download-1.svg' %}"
+											alt=""></a></li>
+								<li><a href="#"><img class="download-btn" src="{% static 'images/download-2.svg' %}"
+											alt=""></a></li>
+							</ul>
+						</div>
+						<div class="second-row-item-payment">
+							<h4>Payment Method</h4>
+							<div class="footer-payments">
+								<ul id="paypal-gateway" class="financial-institutes">
+									<li class="financial-institutes__logo">
+										<img alt="Visa" title="Visa"
+											src="{% static 'images/footer-icons/pyicon-6.svg' %}">
+									</li>
+									<li class="financial-institutes__logo">
+										<img alt="Visa" title="Visa"
+											src="{% static 'images/footer-icons/pyicon-1.svg' %}">
+									</li>
+									<li class="financial-institutes__logo">
+										<img alt="MasterCard" title="MasterCard"
+											src="{% static 'images/footer-icons/pyicon-2.svg' %}">
+									</li>
+									<li class="financial-institutes__logo">
+										<img alt="American Express" title="American Express"
+											src="{% static 'images/footer-icons/pyicon-3.svg' %}">
+									</li>
+									<li class="financial-institutes__logo">
+										<img alt="Discover" title="Discover"
+											src="{% static 'images/footer-icons/pyicon-4.svg' %}">
+									</li>
+								</ul>
+							</div>
+						</div>
+						<div class="second-row-item-payment">
+							<h4>Newsletter</h4>
+							<div class="newsletter-input">
+								<input id="email" name="email" type="text" placeholder="Email Address"
+									class="form-control input-md" required="">
+								<button class="newsletter-btn hover-btn" type="submit"><i
+										class="uil uil-telegram-alt"></i></button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="footer-last-row">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="copyright-text">
+							<i class="uil uil-copyright"></i>Copyright 2024 <b>PalattePassion</b> . All rights reserved
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</footer>
+	<!-- Footer End -->
+
+	<!-- Javascripts -->
+	<!-- <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script> -->
+	<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+	<script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+	<script src="{% static 'vendor/OwlCarousel/owl.carousel.js' %}"></script>
+	<script src="{% static 'vendor/semantic/semantic.min.js' %}"></script>
+	<script src="{% static 'js/jquery.countdown.min.js' %}"></script>
+	<script src="{% static 'js/custom.js' %}"></script>
+	<script src="{% static 'js/offset_overlay.js' %}"></script>
+	<script src="{% static 'js/night-mode.js' %}"></script>
+	<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> -->
+	<script src="{% static 'js/sizeprice.js' %}"></script>
+	<script src="{% static 'js/checkout.js' %}"></script>
+	<script>
+		$(document).ready(function () {
+			$('.thumb a').click(function (e) {
+				e.preventDefault();
+				$('#superImage').attr('src', $(this).attr("href"));
+			})
+		});
+
+		$(document).ready(function () {
+			// Function to update the cart count
+			function updateCartCount(count) {
+				$('#cart').text(count);
+			}
+	
+			// AJAX request to get cart count
+			$.ajax({
+				url: '{% url "get_cart_count" %}',
+				type: 'GET',
+				dataType: 'json',
+				success: function (data) {
+					// Update the cart count on the page
+					updateCartCount(data.cart_count);
+				},
+				error: function (error) {
+					console.log('Error:', error);
+				}
+			});
+		});
+	</script>
+</body>
+
+<!-- Mirrored from gambolthemes.net/html-items/gambo_supermarket_demo/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 12 Jun 2020 15:09:16 GMT -->
+
+<!-- Mirrored from ecart.shaktiwebsolutions.com/gambo_supermarket_demo/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 15 Sep 2023 14:48:13 GMT -->
+
+</html>

@@ -1,0 +1,81 @@
+{% extends 'adminpanel/base.html'  %}
+
+{% load static %}
+
+{% block content %}
+<div class="content_body" id="content_body">
+    <div class="wrapper_content_body">
+        <div class="type_pages_list">
+            <div class="row rmr">
+                <div class="col-lg-1 col-xs-3 height_control">
+                    <input type="checkbox" class="check_checkbox" id="checkall">
+                </div>
+                <div class="col-lg-2 col-xs-12 col-sm-4">
+                    <div class="itemselect_filter green">
+                        <a href="javascript:;" onclick="actionData('ACTIVE','block_action','action_type')">
+                            <i class="fa fa-thumbs-up"></i>Active
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-xs-12 col-sm-4">
+                    <div class="itemselect_filter green">
+                        <a href="javascript:;" onclick="actionData('INACTIVE','block_action','action_type')">
+                            <i class="fa fa-thumbs-down"></i> InActive
+                        </a>
+                    </div>
+                </div>  
+            </div>
+        </div>
+        <div class="table_data_check">
+            <div class="table_head_sec">
+                <h2>ALL Product LIST</h2>
+            </div>
+            <div class="table_overflow">
+                <form action="" method="POST" id="block_action">
+                    {% csrf_token %}
+                    <input type="hidden" value="" name="action_type" id="action_type">
+                    <table id="table_filter" class="tablenormal">
+                        {% include 'userside/includes/alert.html' %}
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>ID</th>
+                                <th>User</th>
+                                <th>Order Number</th>
+                                <th>Full Name</th>
+                                <th>Order Total</th>
+                                <th>Status</th>
+                                <th>Is Ordered</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for order in orders %}
+                            <tr>
+                                <td><input type="checkbox" name="variation_id[]" class="check_select"
+                                        value="{{ var.id }}"></td>
+                                <td>{{forloop.counter}}</td>
+                                <td>{{order.user}}</td>
+                                <td>{{order.order_number}}</td>
+                                <td>{{order.full_name}}</td>
+                                <td>{{order.order_total}}</td>
+                                <td>{{order.status}}</td>
+                                <td>{{order.is_ordered}}</td>
+                                <td>
+                                    <div class="d-flex gap-5 justify-content-center">
+                                        <form action="" method="POST">
+                                            <a href="{% url 'update_order' order.pk %}"
+                                                class="btn btn-outline-primary" id="block">Edit</a>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,353 @@
+{% extends 'userside/partial/base.html' %}
+
+{% load static %}
+
+
+{% block content %}
+
+
+<style>
+    /* these styles are for the demo, but are not required for the plugin */
+    .zoom {
+        display: inline-block;
+        position: relative;
+    }
+
+    /* magnifying glass icon */
+    .zoom:after {
+        content: '';
+        display: block;
+        width: 33px;
+        height: 33px;
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+
+    .zoom img {
+        display: block;
+    }
+
+    .zoom img::selection {
+        background-color: transparent;
+    }
+
+    .form-controll {
+        width: 158px;
+        display: block;
+        height: calc(1.5em + 0.75rem + 2px);
+        padding: 0.375rem 0.75rem;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #495057;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #ced4da;
+        border-radius: 0.25rem;
+        transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    }
+</style>
+
+<script>
+    $(document).ready(function () {
+        $('#ex1').zoom({});
+
+    });
+</script>
+<!-- Body Start -->
+<div class="wrapper">
+    <div class="gambo-Breadcrumb">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+                            <li class="breadcrumb-item"> <a
+                                    href="{{ single_product.category.get_url }}">{{single_product.category }}</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">{{ single_product.product_name }}
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include 'userside/includes/alert.html' %}
+
+   
+
+    <div class="all-product-grid">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="product-dt-view">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-4 mainImage">
+                                <div class="zoom" id='ex1'>
+                                    <center><img id="superImage" src="{{ single_product.image.url }}" alt=""
+                                            style="max-width: 100%; max-height: 100%;" /></center>
+
+                                </div>
+
+                                <ul class="thumb">
+                                    <li>
+                                        <a href="{{ single_product.image.url }}" target="mainImage"><img
+                                                src="{{ single_product.image.url }}" alt="Product Image"></a>
+                                    </li>
+
+                                    {% for image in product_gallery %}
+                                    <li>
+                                        <a href="{{image.image.url}}" target="mainImage"><img src="{{image.image.url}}"
+                                                alt="Product Image"></a>
+                                    </li>
+                                    {% endfor %}
+
+                                </ul>
+
+                            </div>
+
+                            <div class="col-lg-8 col-md-8">
+                                <div class="product-dt-right ">
+                                    <h2>{{ single_product.product_name }}</h2>
+                                    <!-- <h6>Choose Color:</h6>
+                                    <div class="cart-radio">
+                                        <ul class="kggrm-now">
+                                            {% for variant in variants %}
+                                            <li>
+                                                <input type="radio" id="color_{{ variant.color.id }}" name="color"
+                                                    value="{{ variant.color.id }}" style="display: none;">
+                                                <label for="color_{{ variant.color.id }}"
+                                                    style="background-color: {{ variant.color.code }}; "></label>
+                                                <label for="color_{{ variant.color.id }}">{{ variant.color.name}}</label>
+                                            </li>
+                                            {% endfor %}
+
+                                        </ul>
+                                    </div> -->
+                                    <form action="{% url 'add_cart' single_product.id %}" method="get">
+                                        {% csrf_token %}
+                                        <div>
+                                            <div>
+                                                <h6>Select Size:</h6>
+                                                <div id="size-options" name="selected_size">
+                                                    {% if variant.all.exists %}
+                                                    {% for sizes in variant.all %}
+                                                    <label for="custom-radio" class="sizechart">
+                                                        <input type="radio" data-product-id="{{single_product.id}}"
+                                                            class="product_size_var" name="select_size"
+                                                            value="{{sizes}}" id="size-{{ size.id }}">
+                                                        <div>{{sizes}}</div>
+                                                    </label>
+                                                    {% endfor %}
+                                                    {% else %}
+                                                    <div>No size variants available</div>
+                                                    {% endif %}
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+
+
+                                        <br>
+                                        <div class="no-stock">
+                                            <p class="pd-no">Product No.<span>{{single_product.id}}</span></p>
+                                            <p class="stock-qty">Available
+                                                {% if variant.stock <= 0%} <span style="color: red;">(Out of
+                                                    stock)</span>
+                                                    {% else %}
+                                                    <span style="color: green;">(Instock)</span>
+                                                    {% endif %}
+
+                                            </p>
+                                        </div>
+
+
+                                        <div class="product-group-dt">
+                                            <ul>
+                                                <li>
+                                                    <div class="main-price color-discount">
+                                                        Price
+                                                        <span id="product-price">${{ single_product.price }}</span>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                            <ul class="gty-wish-share">
+                                                <li>
+                                                    <div class="qty-product">
+                                                        <div class="quantity buttons_added">
+                                                            <input type="button" value="-" class="minus minus-btn">
+                                                            <input type="number" step="1" name="quantity" value="1"
+                                                                class="input-text qty text">
+                                                            <input type="button" value="+" class="plus plus-btn">
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li><span class="like-icon save-icon" title="wishlist"></span></li>
+                                            </ul>
+
+
+                                            <ul class="ordr-crt-share">
+                                                {% if variant.all.stock                <= 0%} <h5 style="color: red;">Out Of Stock
+                                                    </h5>
+                                                    {% else %}
+                                                    <li>
+
+                                                        <div>
+                                                            <button type="submit" class="add-cart-btn hover-btn">
+                                                                <i class="uil uil-shopping-cart-alt"></i>Add to Cart
+                                                            </button>
+                                                        </div>
+                                                    </li>
+                                                    <li><a href="{% url 'buy_now' single_product.id %}"><button type="button" class=" order-btn hover-btn">Order Now</button></a></li>
+                                                    {% endif %}
+                                            </ul>
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <!-- <div class="col-lg-4 col-md-12">
+                    <div class="pdpt-bg">
+                        <div class="pdpt-title">
+                            <h4>More Like This</h4>
+                        </div>
+                        <div class="pdpt-body scrollstyle_4">
+                            <div class="cart-item border_radius">
+                                <a href="single_product_view.html" class="cart-product-img">
+                                    <img src="{% static 'images/product/img-6.jpg' %}" alt="">
+                                    <div class="offer-badge">4% OFF</div>
+                                </a>
+                                <div class="cart-text">
+                                    <h4>Product Title Here</h4>
+                                    <div class="cart-radio">
+                                        <ul class="kggrm-now">
+                                            <li>
+                                                <input type="radio" id="k1" name="cart1">
+                                                <label for="k1">0.50</label>
+                                            </li>
+                                            <li>
+                                                <input type="radio" id="k2" name="cart1">
+                                                <label for="k2">1kg</label>
+                                            </li>
+                                            <li>
+                                                <input type="radio" id="k3" name="cart1">
+                                                <label for="k3">2kg</label>
+                                            </li>
+                                            <li>
+                                                <input type="radio" id="k4" name="cart1">
+                                                <label for="k4">3kg</label>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="qty-group">
+                                        <div class="quantity buttons_added">
+                                            <input type="button" value="-" class="minus minus-btn">
+                                            <input type="number" step="1" name="quantity" value="1"
+                                                class="input-text qty text">
+                                            <input type="button" value="+" class="plus plus-btn">
+                                        </div>
+                                        <div class="cart-item-price">$12 <span>$15</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="cart-item border_radius">
+                                <a href="single_product_view.html" class="cart-product-img">
+                                    <img src="{% static 'images/product/img-2.jpg' %}" alt="">
+                                    <div class="offer-badge">6% OFF</div>
+                                </a>
+                                <div class="cart-text">
+                                    <h4>Product Title Here</h4>
+                                    <div class="cart-radio">
+                                        <ul class="kggrm-now">
+                                            <li>
+                                                <input type="radio" id="k5" name="cart2">
+                                                <label for="k5">0.50</label>
+                                            </li>
+                                            <li>
+                                                <input type="radio" id="k6" name="cart2">
+                                                <label for="k6">1kg</label>
+                                            </li>
+                                            <li>
+                                                <input type="radio" id="k7" name="cart2">
+                                                <label for="k7">2kg</label>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="qty-group">
+                                        <div class="quantity buttons_added">
+                                            <input type="button" value="-" class="minus minus-btn">
+                                            <input type="number" step="1" name="quantity" value="1"
+                                                class="input-text qty text">
+                                            <input type="button" value="+" class="plus plus-btn">
+                                        </div>
+                                        <div class="cart-item-price">$24 <span>$30</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="cart-item border_radius">
+                                <a href="single_product_view.html" class="cart-product-img">
+                                    <img src="{% static 'images/product/img-5.jpg' %}" alt="">
+                                </a>
+                                <div class="cart-text">
+                                    <h4>Product Title Here</h4>
+                                    <div class="cart-radio">
+                                        <ul class="kggrm-now">
+                                            <li>
+                                                <input type="radio" id="k8" name="cart3">
+                                                <label for="k8">0.50</label>
+                                            </li>
+                                            <li>
+                                                <input type="radio" id="k9" name="cart3">
+                                                <label for="k9">1kg</label>
+                                            </li>
+                                            <li>
+                                                <input type="radio" id="k10" name="cart3">
+                                                <label for="k10">1.50kg</label>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="qty-group">
+                                        <div class="quantity buttons_added">
+                                            <input type="button" value="-" class="minus minus-btn">
+                                            <input type="number" step="1" name="quantity" value="1"
+                                                class="input-text qty text">
+                                            <input type="button" value="+" class="plus plus-btn">
+                                        </div>
+                                        <div class="cart-item-price">$15</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+            <div class="col-lg-12 col-md-12">
+                <div class="pdpt-bg">
+                    <div class="pdpt-title">
+                        <h4>Product Details</h4>
+                    </div>
+                    <div class="pdpt-body scrollstyle_4">
+                        <div class="pdct-dts-1">
+                            <div class="pdct-dt-step">
+                                <h4>Description</h4>
+                                <p>{{ single_product.product_description}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<!-- Body End -->
+
+
+{% endblock content %}

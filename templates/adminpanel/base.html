@@ -1,0 +1,294 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <title>Admin Login</title>
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/media.css' %}">
+    <link rel="stylesheet" href="{% static 'bootstrap_datepicker_plus/css/bootstrap-datepicker3.min.css' %}">
+
+
+</head>
+
+<body>
+
+
+    <div class="header_admin">
+        <a class="header_heading">
+            <span>Control</span> Panel
+        </a>
+        <nav class="head_nav">
+            <a href="javascript:;">
+                <i id="asidebard_btn" class="fa-solid fa-bars"></i>
+            </a>
+            <ul>
+                <li class="removeres">HELLO, {{user.username}}</li>
+                <li><i class="fa-solid fa-laptop"></i> FRONT END</li>
+                <li><a href="{% url 'admin_logout' %} " style="color: white; text-decoration: none;"><i
+                            class="fa-solid fa-right-from-bracket"></i> LOG OUT</a></li>
+
+            </ul>
+        </nav>
+    </div>
+
+    <div id="content_body_hc" class="content_body_hc">
+        <aside id="asidenav">
+
+            <div class="list_nav_box">
+                <ul class="listnav">
+
+                    <li>
+                        <a href="{% url 'admin_dashboard' %}" class="activepage" rel="active" data-show="dashboardlist">
+                            <i class="fa-solid fa-gauge"></i>
+                            My Dashboard
+                        </a>
+                    </li>
+
+
+                    <li>
+
+                        <a href="javascript:;" data-show="userMan">
+                            <i class="fa fa-users"></i>
+                            User Management
+                            <i class="downarrow fa-solid fa-chevron-down"></i>
+                        </a>
+
+                        <ul class="submenus" id="userMan">
+
+                            <li>
+                                <a href="{% url 'admin_user_management' %}">
+                                    <i class="fa-solid fa-list"></i>
+                                    User List
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="{% url 'create_user_from_admin' %}">
+                                    <i class="fa-solid fa-user-plus"></i>
+                                    Add Staff
+                                </a>
+                            </li>
+
+                        </ul>
+                    </li>
+                    <li>
+
+                        <a href="javascript:;" data-show="catman">
+                            <i class="fa-solid fa-box"></i>
+                            Category Management
+
+                            <i class="downarrow fa-solid fa-chevron-down"></i>
+                        </a>
+
+                        <ul class="submenus" id="catman">
+
+                            <li>
+                                <a href="{% url 'admin_category_management'%}">
+                                    <i class="fa-solid fa-list"></i>
+                                    Category List
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="{% url 'add_category'%}">
+                                    <i class="fa-solid fa-plus"></i>
+                                    Add Category
+                                </a>
+                            </li>
+
+                        </ul>
+                    </li>
+                    <li>
+
+                        <a href="javascript:;" data-show="proman">
+                            <i class="fa-solid fa-boxes-stacked"></i>
+                            Product Management
+
+                            <i class="downarrow fa-solid fa-chevron-down"></i>
+                        </a>
+
+                        <ul class="submenus" id="proman">
+
+                            <li>
+                                <a href="{% url 'admin_product_management' %}">
+                                    <i class="fa-solid fa-list"></i>
+                                    Product List
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="{% url 'create_product' %}">
+                                    <i class="fa-solid fa-plus"></i>
+                                    Add Product
+                                </a>
+                            </li>
+
+                        </ul>
+                    </li>
+                    <li>
+
+                        <a href="javascript:;" data-show="varman">
+                            <i class="fa-solid fa-grip"></i>
+                            Variation Management
+
+                            <i class="downarrow fa-solid fa-chevron-down"></i>
+                        </a>
+
+                        <ul class="submenus" id="varman">
+
+                            <li>
+                                <a href="{% url 'variationlist' %}">
+                                    <i class="fa-solid fa-list"></i>
+                                    Variation List
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="{% url 'create_variation' %}">
+                                    <i class="fa-solid fa-plus"></i>
+                                    Add Variation
+                                </a>
+                            </li>
+
+                        </ul>
+
+                    </li>
+                    <li>
+
+                        <a href="javascript:;" data-show="orderman">
+                            <i class="fa-solid fa-cart-plus"></i>          
+                            Order Management
+
+                            <i class="downarrow fa-solid fa-chevron-down"></i>
+                        </a>
+
+                        <ul class="submenus" id="orderman">
+
+                            <li>
+                                <a href="{% url 'orderlist' %}">
+                                    <i class="fa-solid fa-list"></i>
+                                    Order List
+                                </a>
+                            </li>
+
+                        </ul>
+
+                    </li>
+                    <li>
+
+                        <a href="javascript:;" data-show="Couponman">
+                            <i class="fa-solid fa-receipt"></i>
+                            Coupon Management
+
+                            <i class="downarrow fa-solid fa-chevron-down"></i>
+                        </a>
+
+                        <ul class="submenus" id="Couponman">
+
+                            <li>
+                                <a href="{% url 'CouponList' %}">
+                                    <i class="fa-solid fa-list"></i>
+                                    Coupon List
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{% url 'create_coupon' %}">
+                                    <i class="fa-solid fa-plus"></i>
+                                    Add Coupon
+                                </a>
+                            </li>
+
+                        </ul>
+
+                    </li>
+                    <li>
+
+                        <a href="javascript:;" data-show="banman">
+                            <i class="fa-solid fa-ticket"></i>
+                            Banner Management
+
+                            <i class="downarrow fa-solid fa-chevron-down"></i>
+                        </a>
+
+                        <ul class="submenus" id="banman">
+
+                            <li>
+                                <a href="{% url 'BannerList' %}">
+                                    <i class="fa-solid fa-list"></i>
+                                    Banner List
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{% url 'create_banner' %}">
+                                    <i class="fa-solid fa-plus"></i>
+                                    Add Banner
+                                </a>
+                            </li>
+
+                        </ul>
+
+                    </li>
+                    <li>
+
+                        <a href="javascript:;" data-show="salrep">
+                            <i class="fa-solid fa-file"></i>
+                            Sales Report
+
+                            <i class="downarrow fa-solid fa-chevron-down"></i>
+                        </a>
+
+                        <ul class="submenus" id="salrep">
+
+                            <li>
+                                <a href="{% url 'salesReport' %}">
+                                    <i class="fa-solid fa-list"></i>
+                                    Sales Report
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="">
+                                    <i class="fa-solid fa-plus"></i>
+                                    Add Variation
+                                </a>
+                            </li>
+
+                        </ul>
+
+                    </li>
+
+
+                </ul>
+            </div>
+        </aside>
+        {% block content %}
+
+        {% endblock content %}
+        <script src="{% static 'jquery/jquery.min.js' %}"></script>
+        <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+        <script src="{% static 'bootstrap_datepicker_plus/js/bootstrap-datepicker.min.js' %}"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://kit.fontawesome.com/6f707f910a.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+            crossorigin="anonymous"></script>
+        <link rel="stylesheet" type="text/css" href="{% static 'plugin/table/datatables.css' %}">
+        <script type="text/javascript" charset="utf8" src="{% static 'plugin/table/datatables.js' %}"></script>
+
+        <script>
+            $(document).ready(function () {
+                $("#table_filter").DataTable()
+
+            })
+        </script>
+
+        <script src="{% static 'assets/script/script.js' %}"></script>
+</body>
+
+</html>

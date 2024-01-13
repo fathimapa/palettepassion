@@ -1,0 +1,185 @@
+{% extends 'adminpanel/base.html' %}
+
+{% load static %}
+
+{% block content %}
+<script>
+    function generateSlug() {
+        const categoryName = document.getElementById('categoryName').value.toLowerCase();
+        const slug = categoryName.trim().replace(/\s+/g, '-');
+        document.getElementById('slug').value = slug;
+    }
+</script>
+<div class="image_upload_popup" id="cmsImagepop">
+    <div class="flex_avodid_pop">
+        <div class="image_upload_wrapper">
+            <div class="top_tab_head">
+                <h4>Upload/Select Image</h4>
+                <i class="close_image_modal" id="close_modal_popup_image" type="button">X</i>
+                <ul class="tab_upload_files">
+                    <li>
+                        <button class="active_media_tab upload_media_tab_btn tab_file_upload" data-widget="upload_image_tab">Upload
+                            Files</button>
+                        <button class="tab_file_upload mediatabbtn" data-widget="showimagedata">Media Button</button>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="tab_items_image_upload">
+
+                <div class="upload_imga_center hideimagetab tab_image_uipload_common" id="upload_image_tab">
+
+                    <input type="file" id="imagFile" style="display: none;" class="fileToUpload form-control"></input><br>
+
+
+                    <!-- <form  id="submitImagepop" method="post" enctype="multipart/form-data">
+                   <input type="file" name="file" id="imagFile" style="display: none;">
+                   <input type="text" name="text" value="Hello" style="display: none;">
+               </form> -->
+
+                    <div class="imgae_upload_tab_popup">
+                        <div class="flex_avoid">
+                            <h2>Select File</h2>
+                            <p>By Clicking Below Button</p>
+                            <button class="select_files_imgae_popup" id="select_file">Select Files</button>
+                            <div class="size_file_image_popuo">
+                                <span>Maximum upload file size 512MB</span>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="imgae_upload_tab_popup_select hideimagetab tab_image_uipload_common" id="showimagedata">
+                    <div class="content_show_image_filespopup">
+                        <div class="row h100">
+                            <div class="col-12">
+                                <div class="image_list_show">
+                                    <!-- <div class="search_image">
+                                   <label for="">Search File</label>
+                                   <input type="text">
+                               </div> -->
+                                    <div class="row">
+                                        <a href="javascript:;" id="getBigSize" data-type="big" class="" style="text-align:left ; text-decoration:none;">GET BIG SIZE FILE ONLY</a>
+                                    </div>
+
+                                    <input type="hidden" id="setValue">
+                                    <input type="hidden" id="fromIdInput">
+
+                                    <div class="imageuploadlist">
+                                        <ul id="uploadImagesList" class="mt-3 row">
+
+
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="button_group">
+                                    <div class="flex_avoid">
+                                        <button class="btn btn-primary " id="infoImagePopup" disabled><i class="fa fa-info"></i> Info</button>
+                                        <button class="btn btn-danger" disabled id="deleteImagePopup"><i class="fa fa-trash"></i> Delete</button>
+                                        <button class="btn btn-info" disabled id="viewImage">View</button>
+                                        <button class="btn btn-success" disabled id="doneageSelect">Done</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="col-md-3">
+
+                               <div class="details_of_selectedimage">
+                                   <h2 class="attachemnet_head">ATTACHMENT DETAILS</h2>
+                                   <div class="row">
+                                       <div class="col-6">
+                                           <div class="image_prview_select">
+                                               <img src="{% static 'assets/images/male.png' %}" class="image_attached" alt="">
+                                           </div>
+                                       </div>
+                                       <div class="col-6 r">
+                                           <div class="details_content_image">
+                                               <p class="image_name">18.png</p>
+                                               <span class="date_image_uploaded">September 18, 2022</span>
+                                               <p class="size_image">1MB</p>
+                                               <a href="" class="delete_image">Delete permanently</a>
+                                           </div>
+                                       </div>
+
+
+
+                                       <div class="form_change_data">
+                                           <label for="">Title image</label>
+                                           <input type="text">
+                                       </div>
+                                       <div class="file_url">
+                                           <label for="">File Url:</label>
+                                           <div class="file_url_p">
+                                               https://quickwaywork.com/wp-content/uploads/2022/08/18.png
+                                           </div>
+                                           <div class="copy_btn_url">
+                                               Copy Url
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div> -->
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="content_body" id="content_body">
+    <div class="wrapper_content_body">
+        <h4>Add Category Details</h4>
+        <div class="content_box_border">
+            {% include 'userside/includes/alert.html' %}
+
+            <form action="{% url 'add_category' %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row mt-2">
+
+                    <div class="col-md-6">
+                        <div class="form_group">
+                            <label for="{{ form.category_name.id_for_label }}">Category Name</label>
+                            <input id="categoryName" name="category_name" type="text" required oninput="generateSlug()">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form_group">
+                            <label for="{{ form.slug.id_for_label }}">Slug</label>
+                            <input id="slug" name="slug" type="text" required>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form_group">
+                            <label for="{{ form.description.id_for_label }}"> Description </label>
+                            <input id="" name="description" type="text" placeholder="" required="">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form_group">
+                            <label for="{{ form.category_image.id_for_label }}"> Category Image </label>
+
+                            <input type="file" name="category_image" accept="image/*" required="" >
+                            <!-- <div class="fileselect" onclick="showSelectImage('FounderIMG')">
+                                <input type="hidden" name="founder_img" class="updateImage" id="FounderIMG" >
+                            </div> -->
+                        </div>
+                    </div>
+                 
+                    <div class=" d-flex justify-content-center form-group mb-2">
+                                <button type="submit" class="btn btn-dark">Submit</button>
+                                <a href="{% url 'admin_category_management' %}"
+                                    class="btn btn-secondary ms-2">Cancel</a>
+                            </div>
+
+
+                        </div>
+
+            </form>
+        </div>
+
+        {% endblock content %}

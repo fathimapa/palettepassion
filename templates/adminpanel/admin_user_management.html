@@ -1,0 +1,167 @@
+{% extends 'adminpanel/base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+
+
+<div class="content_body" id="content_body">
+    <div class="wrapper_content_body">
+
+        <div class="type_pages_list">
+            <div class="row rmr">
+
+                <div class="col-lg-3 col-xs-12 col-sm-6">
+                    <div class="itemselect_filter green">
+                        <a href=""><i class="fa fa-list"></i> All First Form Data <span>2768</span></a>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-xs-12 col-sm-6">
+                    <div class="itemselect_filter red">
+                        <a href=""> <i class="fa fa-trash"></i> Approved Data <span>2768</span> </a>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-xs-12 col-sm-6">
+                    <div class="itemselect_filter red">
+                        <a href="">
+                            <i class="fa fa-thumbs-up"></i> Rejected Data <span>2768</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-xs-12 col-sm-6">
+                    <div class="itemselect_filter warning">
+                        <a href="">
+                            <i class="fa fa-thumbs-down"></i> Pending Data <span>2768</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="type_pages_list">
+
+
+
+            <div class="row rmr">
+
+                <div class="col-lg-1 col-xs-3 height_control">
+                    <input type="checkbox" class="check_checkbox" id="checkall">
+                </div>
+
+
+                <div class="col-lg-2 col-xs-12 col-sm-4">
+                    <div class="itemselect_filter green">
+                        <a href="javascript:;" onclick="actionData('ACTIVE','block_action','action_type')">
+                            <i class="fa fa-thumbs-up"></i>Active
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-lg-2 col-xs-12 col-sm-4">
+                    <div class="itemselect_filter green">
+                        <a href="javascript:;"  onclick="actionData('INACTIVE','block_action','action_type')">
+                            <i class="fa fa-thumbs-down"></i> InActive
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="table_data_check">
+            <div class="table_head_sec">
+                <h2>ALL Staff LIST</h2>
+            </div>
+
+            <!-- <div class="table_filtter">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="table_row_select">
+                            <label for="">Records Per Page :- </label>
+                            <select name="" id="" onchange="countTable('table_filter',this.value)">
+                                <option value="10">10</option>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                                <option value="500">500</option>
+                                <option value="1000">1000</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="table_row_search">
+
+                            <input type="text" class="w-100" placeholder="Search">
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+
+            <div class="table_overflow">
+             
+
+                <form action="{% url 'admn_users_block_unblock' %}" method="POST" id="block_action">
+                    {% csrf_token %}
+                    
+                   
+
+                    <input type="hidden" value="" name="action_type" id="action_type">
+                    <table id="table_filter" class="tablenormal w-100">
+                        {% include 'userside/includes/alert.html' %}
+                        
+
+                        <thead>
+                            <tr>
+
+                                <th></th>
+                                <th>ID</th>
+                                <th>Username</th>
+                                <th>Email Id</th>
+                                <th>Phone Number</th>
+                                <th>Is Active</th>
+                                <!-- <th>Action</th> -->
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for user in users %}
+                            <tr>
+
+                                <td><input type="checkbox"  name="user_id[]" class="check_select"
+                                        value="{{ user.id }}"></td>
+                                <td>{{forloop.counter}}</td>
+                                <td>{{user.username}}</td>
+                                <td>{{user.email}}</td>
+                                <td>{{user.phone_number}}</td>
+                                <td>{{user.is_active}}</td>
+                                <!-- <td>
+
+                                    <div class="d-flex gap-5 justify-content-center">
+                                        <form action="" method="post">
+                                            <a href="" class="btn btn-outline-primary" id="block">Edit</a>
+                                            <input type="submit" class="btn btn-outline-primary" value="View">
+                                        </form>
+                                    </div>
+                                </td> -->
+                            </tr>
+                            {% endfor %}
+
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+            
+        </div>
+
+
+    </div>
+</div>
+<script>
+  
+</script>
+
+{% endblock content %}

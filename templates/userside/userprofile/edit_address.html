@@ -1,0 +1,154 @@
+{% extends 'userside/partial/base.html' %}
+
+{% load static %}
+
+
+{% block content %}
+<!-- Body Start -->
+<div class="wrapper">
+    <div class="gambo-Breadcrumb">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page"><a href="{% url 'dashboard' %}">User
+                                    Dashboard</a></li>
+                                    {% include 'userside/includes/alert.html' %}
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="dashboard-group">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="user-dt">
+                        <div class="user-img">
+                            {% if userprofile.profile_picture.url != '' %}
+                            <img src="{{userprofile.profile_picture.url}}" alt="">
+                            {%endif%}
+                            <div class="img-add">													
+                                <input type="file" id="file">
+                                <label for="file"><i class="uil uil-camera-plus"></i></label>
+                            </div>
+                        </div>
+                        <h4>{{user.username}}</h4>
+                        <p>{{user.phone_number}}<a href="{% url 'edit_profile' %}"><i class="uil uil-edit"></i></a></p>
+                        <div class="earn-points"><img src="images/Dollar.svg" alt="">Points : <span>20</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>	
+    <div class="mb-5">
+        <div class="container">
+            <div class="row">
+                {% include 'userside/partial/dashboard_sidebar.html' %}
+
+                <div class="col-lg-9 col-md-8">
+                    <div class="dashboard-right">
+                        <div class="row">
+                            
+                            <div class="col-lg-12 col-md-12">
+                                <div class="pdpt-bg" style="background:  rgba(0, 0, 0, 0.782);">
+                                    <div class="pdpt-title">
+                                        <h4 style="color: aliceblue;">Add New Address</h4>
+                                    </div>
+                              </div> 
+                            <article class="card">
+                            <div class="card-body">
+                              <div class="row"> 
+                              <div class="col-md-12">
+                                <form action="" method="POST" enctype="multipart/form-data" >
+                                    {% csrf_token %}
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label >First Name</label>
+                                           
+                                           {{form.first_name}} 
+                                           
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label >Last Name</label>
+                                            {{form.last_name}}
+                                            
+                                        </div>
+                    
+                                    </div>
+                                    <div class="form-row">
+                                      <div class="form-group col-md-6">
+                                          <label >Email</label>
+                                          <input type="email" name="email" value="{{form.email.value}}" maxlength="50" onkeyup="validateAddAddressEmail()" class="form-control" id="id_email">
+                                              <span id="email-error"class='change'></span>
+                                          {% comment %} {{form.email}} {% endcomment %}
+                  
+                                         
+                                      </div>
+                                      <div class="form-group col-md-6">
+                                            <label >Phone Number</label>
+                                            <input type="text" name="phone" value="{{form.phone.value}}" maxlength="15" onkeyup="validateAddAddressMobilenumber()" class="form-control"  id="id_phone">
+                                            <span id="mobilenumber-error"class='change'></span>
+                                            {% comment %} {{form.phone}} {% endcomment %}
+                                            
+                                      </div>
+                                      <div class="form-group col-md-6">
+                                        <label >Address Line 1</label>
+                                        {{form.address_line1}}
+                                       
+                                      </div>
+                                      
+                                      <div class="form-group col-md-6">
+                                        <label >Address Line 2</label>
+                                        {{form.address_line2}}
+                                       
+                                      </div>
+                                      <div class="form-group col-md-6">
+                                        <label >City</label>
+                                        {{form.city}}
+                                       
+                                      </div>
+                                      <div class="form-group col-md-6">
+                                        <label >State</label>
+                                        {{form.state}}
+                                       
+                                      </div>
+                                      <div class="form-group col-md-6">
+                                        <label >Zip Code</label>
+                                        {{form.zipcode}}
+                                       
+                                      </div>
+                                      <div class="form-group col-md-6">
+                                        <label >country</label>
+                                        {{form.country}}
+                                       
+                                      </div>
+                                     
+                                           
+                                    </div>
+                                    <input type="submit" name="" id="" value="Save" onclick="return validateAddAddresForm()" class="btn btn-dark">
+                                     <span id="submit-error" class="mt-2"></span>
+                    
+                                   </form>
+                               
+                              </div>
+                              </div> <!-- row.// -->
+                            </div> <!-- card-body .// -->
+                        
+                            
+                             <!-- table-responsive .end// -->
+                            </article> <!-- order-group.// --> 
+                        </div>
+
+                    </div>
+                </div>
+            </div>	
+        </div>	
+    </div>	
+</div>
+<!-- Body End -->
+
+{% endblock content %}

@@ -1,0 +1,214 @@
+{% extends 'userside/partial/base.html' %}
+
+{% load static %}
+
+{% block content %}
+<div class="wrapper">
+    <div class="all-product-grid">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="product-top-dt">
+                        <div class="product-left-title">
+                            <h1>Our Store</h>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <style>
+                /* Add margin to the bottom of each product item (adjust the value as needed) */
+                .product-item {
+                    margin-bottom: 20px;
+                }
+
+                /* Set a fixed width and height for the product images (adjust the values as needed) */
+                .product-img img {
+                    width: 210PX;
+                    height: 218PX;
+                }
+
+                /* CSS for changing pagination link color to orange */
+                .pagination .page-link {
+                    color: rgba(0, 0, 0, 0.782);
+                    /* Set the desired color */
+                }
+
+                /* CSS for changing active page link color to orange */
+                .pagination .page-item.active .page-link {
+                    background-color: rgba(0, 0, 0, 0.782);
+                    /* Set the desired color for the active link */
+                    border-color: rgba(0, 0, 0, 0.782);
+                    /* Set the desired border color for the active link */
+                }
+
+                /* CSS to center-align pagination links */
+                .pagination {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    margin: 10px 0;
+                    /* Adjust the margin as needed for spacing */
+                }
+
+                .pagination .page-item {
+                    margin: 0 5px;
+                    /* Adjust the margin as needed for spacing between links */
+                }
+
+                /* @media (min-width: 768px)  */
+                .col-md-3 {
+                    flex: 0 0 auto;
+                    width: 25%;
+                }
+
+                .icon-control {
+                    margin-top: 5px;
+                    float: right;
+                    font-size: 80%;
+                }
+            </style>
+            <div class="product-list-view">
+                <div class="row">
+                    <aside class="col-md-3 ">
+                        <article class="filter-group">
+                            <header class="card-header">
+                                <a href="#" data-toggle="collapse" data-target="#category_filter" aria-expanded="true"
+                                    class="text-decoration-none text-dark">
+                                    <i class="icon-control fa fa-chevron-down">
+                                    </i>
+                                    <h6 class="title">Categories</h6>
+                                </a>
+                            </header>
+                            <div class="filter-content collapse " id="category_filter">
+                                <div class="card-body">
+                                    <ul class="list-menu">
+                                        <li><a href="{% url 'store' %}">All Categories </a></li>
+                                        {% for category in links %}
+                                        <li><a href="{{category.get_url}}">{{category.category_name}} </a></li>
+                                        {% endfor %}
+                                    </ul>
+                                </div> <!-- card-body.// -->
+                            </div>
+                        </article>
+                        <article class="filter-group">
+                            <header class="card-header">
+                                <a href="#" data-toggle="collapse" data-target="#collapse_3" aria-expanded="true"
+                                    class="text-decoration-none text-dark">
+                                    <i class="icon-control fa fa-chevron-down"></i>
+                                    <h6 class="title">Price range </h6>
+                                </a>
+                            </header>
+                            <div class="filter-content collapse show" id="collapse_3">
+                                <div class="card-body">
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label>Min</label>
+                                            <input class="form-control min_price" placeholder="Rs 0" type="number"
+                                                id="filter-price-range-min" value="{% if min_price %}{{ min_price }}{% endif %}">
+                                        </div>
+                                        <div class="form-group text-right col-md-6">
+                                            <label>Max</label>
+                                            <input class="form-control max_price" placeholder="Rs 5,000,00"
+                                                id="filter-price-range-max" type="number"
+                                                value="{% if max_price %}{{ max_price }}{% endif %}">
+                                        </div>
+                                    </div> <!-- form-row.// -->
+                                    <button class="btn btn-block btn-dark my-2" onclick="filterWithPriceRange('filter-price-range-min', 'filter-price-range-max')">Apply</button>
+                                </div><!-- card-body.// -->
+                                
+                            </div>
+                        </article>
+                    </aside>
+                    <!-- filter-group .// -->
+                    {% for product in products_final %}
+                    <div class="col-lg-3 col-md-3 mb-4">
+                        <div class="product-item">
+                            <a href="{{ product.get_url }}" class="product-img">
+                                <img src="{{product.image.url}}" alt="">
+                                <div class="product-absolute-options">
+                                    <span class="offer-badge-1">6% off</span>
+                                    <span class="like-icon" title="wishlist"></span>
+                                </div>
+                            </a>
+                            <div class="product-text-dt">
+                                <p>Available<span>(In Stock)</span></p>
+                                <a href="{{ product.get_url }}">{{product.product_name}}</a>
+                                <div class="product-price">${{product.price}}</div>
+                                <div class="qty-cart">
+                                    <div class="quantity buttons_added">
+                                        <input type="button" value="-" class="minus minus-btn">
+                                        <input type="number" step="1" name="quantity" value="1"
+                                            class="input-text qty text">
+                                        <input type="button" value="+" class="plus plus-btn">
+                                    </div>
+                                    <span class="cart-icon"><i class="uil uil-shopping-cart-alt"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                
+                </div>
+                <div class="col-md-12">
+                    <nav aria-label="..." class="text-center">
+                        <ul class="pagination">
+                            {% if products_final.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="/store/?page=1" tabindex="-1" aria-disabled="true">First</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="/store/?page={{products_final.previous_page_number}}"
+                                    tabindex="-1" aria-disabled="true">Previous</a>
+                            </li>
+                            {% endif %}
+                            {% for page_num in products_final.paginator.page_range %}
+                            <li class="page-item {% if page_num == products_final.number %}active{% endif %}">
+                                <a class="page-link" href="/store/?page={{ page_num }}">{{ page_num }}</a>
+                            </li>
+                            {% endfor %}
+                            {% if products_final.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="/store/?page={{products_final.next_page_number}}">Next</a>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Body End -->
+
+<script>
+    function filterWithPriceRange(min,max) {
+    const urlParams = new URLSearchParams(window.location.search);
+
+    console.log("Min Price:", document.getElementById(min).value);
+    console.log("Max Price:", document.getElementById(max).value);
+
+    try{
+        var price_min = document.getElementById(min).value
+
+    }
+    catch{
+        var price_min = 0
+    }
+    
+    try{
+        var price_max = document.getElementById(max).value
+
+    }
+    catch
+        {
+        var price_max = ''
+        }
+
+    urlParams.set('min_price',  price_min.toString());
+    urlParams.set('max_price', price_max.toString());
+    
+    const newUrl = `${window.location.pathname}?${urlParams.toString()}`;
+    window.location.href = newUrl;
+    }
+</script>
+{% endblock content %}

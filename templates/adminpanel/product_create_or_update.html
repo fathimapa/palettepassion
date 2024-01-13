@@ -1,0 +1,296 @@
+{% extends 'adminpanel/base.html' %}
+
+{% load static %}
+
+{% block content %}
+<style>
+    img,
+    svg {
+        vertical-align: middle;
+        height: 58px;
+        width: 58px;
+    }
+</style>
+<div class="content_body" id="content_body">
+    <div class="wrapper_content_body">
+        <h4>Add Product Details</h4>
+        <div class="content_box_border">
+            {% include 'userside/includes/alert.html' %}
+
+
+            <form enctype="multipart/form-data" class="container" method="post" id="product_form">
+                {% csrf_token %}
+                <!-- main form start --- in our case product form -->
+                <div class="card">
+                    <div class="card-header card-header-secondary">
+                        <h4 class="card-title">Add Products</h4>
+                    </div>
+                    {% for field in form %}
+                    <div class="form-group card-body">
+                        <label>{{field.label}}</label>
+                        {% if field.field.required %}
+                        <span style="color: red;" class="required">*</span>
+                        {% endif %}
+
+                        {% if field.name == 'image' %} {# Check if the field is the image field #}
+                        {{field}}
+                        {% if form.instance.image %} {# Check if there is an existing image #}
+                        <img src="{{ form.instance.image.url }}" alt="Image Preview"
+                            style="max-width: 200px; max-height: 200px;">
+                        {% endif %}
+                        {% else %}
+                        {{field}}
+                        {% endif %} 
+                         {% if field.help_text %}
+                        <small style="color: grey">{{ field.help_text }}</small>
+                        {% endif %}
+                        {% for error in field.errors %}
+                        <p style="color: red">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                    {% endfor %}
+                </div>
+                <!-- main form end --- in our case product form -->
+
+                <!-- inline form for Images start -->
+
+                <!-- EXPLAINING with named_formsets.images as formset -->
+                <!-- Note: named_formsets is used in get_context_data function in views.py -->
+                <!-- Note: here images is our ImageFormSet name, used in get_named_formsets function in views.py -->
+                {% with named_formsets.images as formset %}
+                {{ formset.management_form }}
+                <script type="text/html" id="images-template">   // id="inlineformsetname-template"
+                        <tr id="images-__prefix__" class= hide_all>  // id="inlineformsetname-__prefix__"
+                            {% for fields in formset.empty_form.hidden_fields %}
+                                {{ fields }}
+                            {% endfor %}
+                        
+                            {% for fields in formset.empty_form.visible_fields %}
+                                <td>{{fields}}</td>
+                            {% endfor %}
+                        </tr>
+                    </script>
+
+                <div class="table-responsive card mt-4">
+                    <div class="card-header card-header-secondary">
+                        <h4 class="card-title">Add Images</h4>
+                    </div>
+                    <table class="table card-body">
+                        <thead class="text-secondary">
+                            <th>Image <span style="color: red;" class="required">*</span></th>
+                            <th>Delete?</th>
+                            <th>Preview</th>
+                            <th>Custom Delete btn</th>
+                        </thead>
+                        <tbody id="item-images"> <!-- id="item-inlineformsetname" -->
+                            <!-- formset non forms errors -->
+                            {% for error in formset.non_form_errors %}
+                            <span style="color: red">{{ error }}</span>
+                            {% endfor %}
+                            {% for formss in formset %}
+                            {{ formss.management_form }}
+                            <tr id="images-{{ forloop.counter0 }}" class=hide_all>
+                                <!-- id="inlineformsetname-counter" -->
+                                {{ formss.id }}
+                                {% for field in formss.visible_fields %}
+
+                                <td>
+                                    {{field}}
+
+                                    {% for error in field.errors %}
+                                    <span style="color: red">{{ error }}</span>
+                                    {% endfor %}
+                                </td>
+
+
+
+                                {% endfor %}
+                                <td>
+                                    {% if formss.instance.image %}
+                                    <div id="image-preview">
+                                        <img src="{{ formss.instance.image.url }}" class="img-preview"
+                                            alt="Image Preview">
+                                    </div>
+                                    {% endif %}
+                                </td>
+                                <!-- delete code -->
+                                {% if formss.instance.pk %}
+
+                                <td>
+                                    <button type="button" class="btn btn-danger" data-toggle="modal"
+                                        data-target="#exampleModal{{formss.instance.pk}}">
+                                        Delete
+                                    </button>
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="exampleModal{{formss.instance.pk}}" tabindex="-1"
+                                        role="dialog" aria-labelledby="exampleModalLabel{{formss.instance.pk}}"
+                                        aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title"
+                                                        id="exampleModalLabel{{formss.instance.pk}}">Are Your Sure You
+                                                        Want To Delete This?</h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <a href="{% url 'delete_image' formss.instance.pk %}" type="button"
+                                                        class="btn btn-primary">Yes, Delete</a>
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                {% endif %}
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <a href="#" id="add-image-button" class="btn btn-secondary add-images">Add More</a>
+                    <!-- id="add-inlineformsetname-button" -->
+                </div>
+                {% endwith %}
+                <!-- inline form for Images end -->
+                <div class="form-group mt-2">
+                    <button type="submit" class="btn btn-secondary btn-block">Submit</button>
+                </div>
+            </form>
+
+
+        </div>
+        <!-- <script>
+            function initImageCropper() {
+
+                const imageInput = document.getElementById('id_images');
+                const imagePreview = document.getElementById('image-preview');
+
+                imageInput.addEventListener('change', function (e) {
+                    imagePreview.innerHTML = '';
+
+                    const files = e.target.files;
+
+                    for (let i = 0; i < files.length; i++) {
+                        const file = files[i];
+
+                        if (file) {
+                            const reader = new FileReader();
+
+                            reader.onload = function () {
+                                const img = new Image();
+                                img.src = reader.result;
+
+                                img.onload = function () {
+                                    const imgContainer = document.createElement('div');
+                                    imgContainer.className = 'image-container';
+                                    imgContainer.appendChild(img);
+                                    imagePreview.appendChild(imgContainer);
+
+
+
+                                    const cropper = new Cropper(img, {
+                                        aspectRatio: 1,
+                                        viewMode: 1,
+                                        guides: true,
+                                        background: false,
+                                        autoCropArea: 0.8,
+                                        responsive: true,
+                                    });
+
+                                    const cropButton = document.createElement('button');
+                                    cropButton.textContent = 'Crop';
+                                    imgContainer.appendChild(cropButton);
+
+
+
+                                    cropButton.addEventListener('click', function () {
+                                        const croppedCanvas = cropper.getCroppedCanvas();
+                                        croppedCanvas.toBlob(function (blob) {
+                                            const croppedImg = new Image();
+                                            croppedImg.src = URL.createObjectURL(blob);
+                                            croppedImg.style.width = '840px';
+                                            croppedImg.style.height = '840px';
+                                            imagePreview.appendChild(croppedImg);
+
+                                            const croppedImageInput1 = document.createElement('input');
+                                            croppedImageInput1.type = 'hidden';
+                                            croppedImageInput1.name = 'cropped-image-' + i; // Unique name for each input
+                                            croppedImageInput1.value = blob;
+
+                                            // Append the cropped image input to a form
+                                            const form = document.getElementById('add_product'); // Change this to your form's ID
+                                            form.appendChild(croppedImageInput1);
+
+                                            
+
+                                            const croppedImageInput = document.getElementById('cropped-image');
+                                            croppedImageInput.value = blob;
+                                        });
+                                    });
+                                };
+                            };
+
+                            reader.readAsDataURL(file);
+                        }
+                    }
+                });
+            }
+
+            initImageCropper();
+        </script> -->
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+
+        <script>
+            $(document).ready(function () {
+                // when user clicks add more btn of images
+                $('.add-images').click(function (ev) {
+                    ev.preventDefault();
+                    var count = $('#item-images').children().length;
+                    var tmplMarkup = $('#images-template').html();
+                    var compiledTmpl = tmplMarkup.replace(/__prefix__/g, count);
+                    $('#item-images').append(compiledTmpl);
+
+                    // update form count
+                    $('#id_images-TOTAL_FORMS').attr('value', count + 1);
+                });
+            });
+
+            $(document).ready(function () {
+                // when user clicks add more btn of variants
+                $('.add-variants').click(function (ev) {
+                    ev.preventDefault();
+                    var count = $('#item-variants').children().length;
+                    var tmplMarkup = $('#variants-template').html();
+                    var compiledTmpl = tmplMarkup.replace(/__prefix__/g, count);
+                    $('#item-variants').append(compiledTmpl);
+
+                    // update form count
+                    $('#id_variants-TOTAL_FORMS').attr('value', count + 1);
+                });
+            });
+            function previewImage(input) {
+                var preview = document.getElementById('image-preview');
+                preview.innerHTML = '';  // Clear previous preview
+
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        var image = document.createElement('img');
+                        image.src = e.target.result;
+                        image.setAttribute('class', 'img-preview');
+                        preview.appendChild(image);
+                    };
+
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+        </script>
+
+        {% endblock content %}

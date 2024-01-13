@@ -1,0 +1,155 @@
+{% extends 'userside/partial/base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<!--================Order Details Area =================-->
+<div class="wrapper">
+    <div class="gambo-Breadcrumb">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Order Placed</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="all-product-grid">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-6 col-md-8">
+                    <div class="order-placed-dt">
+                        <i class="uil uil-check-circle icon-circle"></i>
+                        <h2>Order Successfully Placed</h2>
+                        <h4>Thank you for your order!</h4>
+                        <div class="delivery-address-bg">
+                            <div class="title585">
+                                <div class="pln-icon"><i class="uil uil-telegram-alt"></i></div>
+                                <h4>Your order will be sent to this address</h4>
+                            </div>
+                            <ul class="address-placed-dt1">
+                                <li><p><i class="fas fa-user"></i>Name :<span>{{order.full_name}}</span></p></li>
+                                <li><p><i class="uil uil-map-marker-alt"></i>Address :<span>{{order.full_address}},{{order.city}},{{order.country}}</span></p></li>
+                                <li><p><i class="fas fa-calendar"></i>Ordered Date :<span> {{order.created_at}}</span></p></li>
+                                <li><p><i class="fas fa-exclamation"></i>Order Number :<span>{{order.order_number}}</span></p></li>
+                                <li><p><i class="uil uil-phone-alt"></i>Phone Number :<span>{{order.phone}}</span></p></li>
+                                <li><p><i class="uil uil-envelope"></i>Email Address :<span>{{order.email}} </span></p></li>
+                                <li><p><i class="uil uil-card-atm"></i>Payment Method :<span>{{payment.payment_method}}</span></p></li>
+                            </ul>
+                            
+                            <div class="placed-bottom-dt">
+                                The payment of <span>${{order.order_total}}</span> you'll make when the deliver arrives with your order.
+                            </div>
+                        </div>
+
+                        <div class="delivery-address-bg">
+
+                            <div class="order_details_table">
+                                <h3>Order Details</h3>
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col"><strong>Product</strong></th>
+                                                <th scope="col"><strong>Quantity</strong></th>
+                                                <th scope="col"><strong>Total</strong></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for item in ordered_products %}
+                                            <tr>
+                                                <td>{{item.product.product_name}}
+                                                    <p class="text-primary small">
+                                                    </p>
+                                                </td>
+                                                <td>
+                                                    <h5>{{item.quantity}}</h5>
+                                                </td>
+                                                <td>
+                                                    <p>${{item.sub_total}}</p>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                            <tr>
+                                                <td>
+                                                    <h4>Net total</h4>
+                                                </td>
+                                                <td>
+                                                    <h5></h5>
+                                                </td>
+                                                <td>
+                                                    <p>${{total}}</p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <h4>Tax</h4>
+                                                </td>
+                                                <td>
+                                                    <h5></h5>
+                                                </td>
+                                                <td>
+                                                    <p>${{tax}}</p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                    
+                                                {% if order.order_discount  %}
+                                                <td>
+                                                    <h4 class="text-success">Discount :</h4>
+                                                </td>
+                                                <td>
+                                                    <h5></h5>
+                                                </td>
+                                                <td>
+                                                    <p class="cart_amount text-success">-${{order.order_discount}}</p>
+                                                </td>
+                    
+                                                {% endif %}
+                                            </tr>
+                    
+                                            <tr>
+                                                <td>
+                                                    <h4>Shipping Charge</h4>
+                                                </td>
+                                                <td>
+                                                    <h5></h5>
+                                                </td>
+                                                <td>
+                                                    <p>${{shipping}}</p>
+                                                </td>
+                                            </tr>
+                                            
+                                            <tr>
+                                                <td>
+                                                    <h4>Grand total</h4>
+                                                </td>
+                                                <td>
+                                                    <h5></h5>
+                                                </td>
+                                                <td>
+                                                    <p style="color:red;">${{order.order_total}}</p>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>  
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>	
+</div>
+
+<!--================End Order Details Area =================-->
+
+{% endblock content %}

@@ -1,0 +1,297 @@
+{% extends 'userside/partial/base.html' %}
+
+{% load static %}
+
+
+{% block content %}
+<!-- Body Start -->
+<div class="wrapper">
+    <div class="gambo-Breadcrumb">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page"><a href="{% url 'dashboard' %}">User
+                                    Dashboard</a></li>
+                            {% include 'userside/includes/alert.html' %}
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="dashboard-group">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="user-dt">
+                        <div class="user-img">
+                            {% if userprofile.profile_picture.url != '' %}
+                            <img src="{{userprofile.profile_picture.url}}" alt="">
+                            {%endif%}
+                            <div class="img-add">
+                                <input type="file" id="file">
+                                <label for="file"><i class="uil uil-camera-plus"></i></label>
+                            </div>
+                        </div>
+                        <h4>{{user.username}}</h4>
+                        <p>{{user.phone_number}}<a href="{% url 'edit_profile' %}"><i class="uil uil-edit"></i></a></p>
+                        <div class="earn-points"><img src="images/Dollar.svg" alt="">Points : <span>20</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="">
+        <div class="container">
+            <div class="row">
+                {% include 'userside/partial/dashboard_sidebar.html' %}
+                <div class="col-lg-9 col-md-8">
+                    <div class="dashboard-right">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="main-title-tab">
+                                    <h4><i class="uil uil-box"></i>My Orders</h4>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12 mt-4">
+                                
+                                <article class="card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-12 col-md-12">
+                                                {% if orders %}
+                                                <table class="table table-hover table-responsive">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col ">Order #</th>
+                                                            <th scope="col"></th>
+                                                            <th scope="col"></th>
+                                                            <th scope="col"></th>
+                                                            <th scope="col">Billing name</th>
+                                                            <th scope="col"></th>
+                                                            <th scope="col"></th>
+                                                            <th scope="col"></th>
+                                                            <th scope="col">Phone</th>
+                                                            <th scope="col"></th>
+                                                            <th scope="col"></th>
+                                                            <th scope="col"></th>
+                                                            <th scope="col">Order Total</th>
+                                                            <th scope="col"></th>
+                                                            <th scope="col"></th>
+                                                            <th scope="col">Date</th>
+                                                            <th scope="col"></th>
+                                                            <th scope="col"></th>
+                                                            <th scope="col"></th>
+                                                            <th scope="col">Action</th>
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+
+                                                        <tr>
+                                                            {% for order in orders %}
+                                                            <th scope="row">
+                                                                <a href="{% url 'order_details' order.order_number%}">{{order.order_number}}</a>
+                                                            </th>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td>{{order.full_name}}</td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td>{{order.phone}}</td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td>₹{{order.order_total}}</td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td>{{order.created_at}}</td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td>
+                                                                {% if order.status == 'Delivered' %}
+                                                                {% if today > add %}
+
+                                                            <td><button type="button" class="btn btn-"
+                                                                    data-toggle="modal" data-target="#a">
+                                                                    Delivered
+                                                                </button>
+                                                                <p class="text-center text-danger">no return available
+                                                                </p>
+                                                            </td>
+                                                            {% else %}
+
+                                                            <td><button type="button" class="btn btn-warning"
+                                                                    data-toggle="modal" data-target="#a{{order.id}}">
+                                                                    Return
+                                                                </button>
+
+                                                                <!-- Modal -->
+                                                                <div class="modal fade" id="a{{order.id}}" tabindex="-1"
+                                                                    role="dialog" aria-labelledby="exampleModalLabel"
+                                                                    aria-hidden="true">
+                                                                    <div class="modal-dialog" role="document">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                                <h4 class="modal-title"
+                                                                                    id="exampleModalLabel">Alert</h4>
+                                                                                <button type="button" class="close"
+                                                                                    data-dismiss="modal"
+                                                                                    aria-label="Close">
+                                                                                    <span
+                                                                                        aria-hidden="true">&times;</span>
+                                                                                </button>
+                                                                            </div>
+                                                                            <div class="modal-body">
+                                                                                <h5 class="modal-title"
+                                                                                    id="exampleModalLabel">You are
+                                                                                    Returning #{{order.order_number}}
+                                                                                </h5>
+                                                                            </div>
+                                                                            <div class="modal-footer">
+
+                                                                                {% comment %} <a href=""
+                                                                                    class="btn btn-warning btn-sm">Return</a>
+                                                                                {% endcomment %}
+                                                                                <form action="{% url 'return_order' order.order_number %}" method="post"
+                                                                                    class="form-control  d-flex justify-content"
+                                                                                    style="padding:0" id="form">
+                                                                                    {% csrf_token %}
+                                                                                    <input type="text"
+                                                                                        class="form-control" id="back"
+                                                                                        name="return_reason" required>
+                                                                                    <button type="submit"
+                                                                                        onclick="orderReturn()"
+                                                                                        class="btn btn-warning">Return</button>
+                                                                                </form>
+                                                                                <button type="button"
+                                                                                    class="btn btn-secondary"
+                                                                                    data-dismiss="modal">Close</button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+
+                                                            {%endif%}
+                                                            {% elif order.status == 'Cancelled' %}
+                                                            <td><button type="button" class="btn btn-dark"
+                                                                    data-toggle="modal" data-target="#a">
+                                                                    Cancelled
+                                                                </button></td>
+                                                            </td>
+                                                            {% elif order.status == 'Returned' %}
+                                                            <td><button type="button" class="btn btn-info"
+                                                                    data-toggle="modal" data-target="#a">
+                                                                    Returned
+                                                                </button></td>
+                                                            {% else %}
+                                                            <td><button type="button" class="btn btn-danger"
+                                                                    data-toggle="modal" data-target="#a{{order.id}}">
+                                                                    Cancel
+                                                                </button>
+
+                                                                <!-- Modal -->
+                                                                <div class="modal fade" id="a{{order.id}}" tabindex="-1"
+                                                                    role="dialog" aria-labelledby="exampleModalLabel"
+                                                                    aria-hidden="true">
+                                                                    <div class="modal-dialog" role="document">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                                <h5 class="modal-title"
+                                                                                    id="exampleModalLabel">Alert</h5>
+                                                                                <button type="button" class="close"
+                                                                                    data-dismiss="modal"
+                                                                                    aria-label="Close">
+                                                                                    <span
+                                                                                        aria-hidden="true">&times;</span>
+                                                                                </button>
+                                                                            </div>
+                                                                            <div class="modal-body">
+                                                                                <h5 class="modal-title"
+                                                                                    id="exampleModalLabel">You are
+                                                                                    Cancelling #{{order.order_number}}
+                                                                                </h5>
+                                                                            </div>
+                                                                            <div class="modal-footer">
+                                                                                <a href="{% url 'cancel_order' order.order_number %}"
+                                                                                    class="btn btn-danger btn-sm">Cancel</a>
+                                                                                <button type="button"
+                                                                                    class="btn btn-primary"
+                                                                                    data-dismiss="modal">Close</button>
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                            </td>{% endif %}
+                                                        </tr>
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                                {% else %}
+                                                <h3 class="text-center">no orders<h3>
+                                                        {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </article>
+
+                            </div>
+                            <div class="container mt-3">
+                                <div class="row justify-content-center">
+                                    <div class="col-md-6">
+                                        <div class="pagination">
+                                            <ul class="pagination justify-content-center">
+
+                                                {% if orders.has_previous %}
+                                                <li class="page-item">
+                                                    <a class="page-link" href="?page=1"
+                                                        style="background-color: rgba(0, 0, 0, 0.782); color: white;">&laquo;
+                                                        first</a>
+                                                </li>
+                                                <li class="page-item">
+                                                    <a class="page-link" href="?page={{ orders.previous_page_number }}"
+                                                        style="background-color: rgba(0, 0, 0, 0.782); color: white;">previous</a>
+                                                </li>
+                                                {% endif %}
+
+                                                <li class="page-item disabled">
+                                                    <span class="page-link">
+                                                        Page {{ orders.number }} of {{ orders.paginator.num_pages }}.
+                                                    </span>
+                                                </li>
+
+                                                {% if orders.has_next %}
+                                                <li class="page-item">
+                                                    <a class="page-link" href="?page={{ orders.next_page_number }}"
+                                                        style="background-color: rgba(0, 0, 0, 0.782); color: white;">next</a>
+                                                </li>
+                                                <li class="page-item">
+                                                    <a class="page-link" href="?page={{ orders.paginator.num_pages }}"
+                                                        style="background-color: rgba(0, 0, 0, 0.782); color: white;">last &raquo;</a>
+                                                </li>
+                                                {% endif %}
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Body End -->
+
+{% endblock content %}

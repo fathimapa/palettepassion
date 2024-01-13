@@ -1,0 +1,129 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+	
+<!-- Mirrored from gambolthemes.net/html-items/gambo_supermarket_demo/sign_in.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 12 Jun 2020 15:08:02 GMT -->
+
+<!-- Mirrored from ecart.shaktiwebsolutions.com/gambo_supermarket_demo/sign_in.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 15 Sep 2023 14:51:59 GMT -->
+<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, shrink-to-fit=9">
+		<meta name="description" content="Gambolthemes">
+		<meta name="author" content="Gambolthemes">		
+		<title>Gambo - Sign In</title>
+		
+		<!-- Favicon Icon -->
+		<link rel="icon" type="image/png" href="images/fav.png">
+		
+		<!-- Stylesheets -->
+		<link href="../fonts.googleapis.com/css2e949e949.html?family=Rajdhani:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+		<link href="{% static 'vendor/unicons-2.0.1/css/unicons.css' %}"rel='stylesheet'>
+		<link href="{% static 'css/style.css' %}" rel="stylesheet">
+		<link href="{% static 'css/responsive.css' %}" rel="stylesheet">
+		<link href="{% static 'css/night-mode.css' %}" rel="stylesheet">
+		<link href="{% static 'css/step-wizard.css' %}" rel="stylesheet">
+		
+		<!-- Vendor Stylesheets -->
+		<link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet">
+		<link href="{% static 'vendor/OwlCarousel/assets/owl.carousel.css' %}" rel="stylesheet">
+		<link href="{% static 'vendor/OwlCarousel/assets/owl.theme.default.min.css' %}" rel="stylesheet">
+		<link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="{% static 'vendor/semantic/semantic.min.css' %}">	
+		
+	</head>
+
+<body>
+	<div class="sign-inup">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-lg-5">
+					<div class="sign-form">
+						<div class="sign-inner">
+							<div class="sign-logo" id="logo">
+								<a href="index-2.html"><img src="{% static 'images/logo.svg' %}" alt=""></a>
+								<a href="index-2.html"><img class="logo-inverse" src="{% static 'images/dark-logo.svg' %}" alt=""></a>
+							</div>
+							<div class="form-dt">
+								<div class="form-inpts checout-address-step">
+									<form action="" method="POST">
+                                        {% csrf_token %}
+
+										<div class="form-title"><h6>Otp Verification</h6></div>
+                                        {% include 'userside/includes/alert.html' %}
+
+										<div class="form-group pos_rel">
+											<input for="otp" id="otp" name="otp" type="text" placeholder="Enter verification code" class="form-control lgn_input" required="">
+											<i class="uil uil-mobile-android-alt lgn_icon"></i>
+											<p id="timer">Time remaining: <span id="countdown">60</span> seconds</p>
+										</div>
+										<button class="login-btn hover-btn" type="submit">Submit</button>
+									</form>
+									<a id="resend-link" style="display: none;" href="{% url 'resend_otp' %}">Resend OTP</a>
+								</div>
+								
+								<div class="signup-link">
+									<p>Don't have an account? - <a href="{% url 'register' %}">Sign Up Now</a></p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="copyright-text text-center mt-3">
+						<i class="uil uil-copyright"></i>Copyright 2020 <b>Gambolthemes</b> . All rights reserved
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+        function startTimer(duration, display) {
+            var timer = duration, seconds;
+    
+            var countdown = setInterval(function () {
+                seconds = parseInt(timer % 60, 10);
+    
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+    
+                var timeText = "00:" + seconds;
+                display.textContent = timeText;
+    
+                if (timer < 10) {
+                    display.classList.add("red-text");
+                }
+    
+                if (--timer < 0) {
+                    clearInterval(countdown);
+                    // Handle timer expiration here (e.g., show Resend OTP link)
+                    document.getElementById("resend-link").style.display = "block";
+                }
+            }, 1000);
+        }
+    
+        window.onload = function () {
+            var thirtySeconds = 60;
+            var display = document.querySelector('#timer');
+            startTimer(thirtySeconds, display);
+        };
+    </script>
+
+	<!-- Javascripts -->
+	<script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+	<script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+	<script src="{% static 'vendor/OwlCarousel/owl.carousel.js' %}"></script>
+	<script src="{% static 'vendor/semantic/semantic.min.js' %}"></script>
+	<script src="{% static 'js/jquery.countdown.min.js' %}"></script>
+	<script src="{% static 'js/custom.js' %}"></script>
+	<script src="{% static 'js/product.thumbnail.slider.js' %}"></script>
+	<script src="{% static 'js/offset_overlay.js' %}"></script>
+	<script src="{% static 'js/night-mode.js' %}"></script>
+	
+	
+</body>
+
+<!-- Mirrored from gambolthemes.net/html-items/gambo_supermarket_demo/sign_in.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 12 Jun 2020 15:08:02 GMT -->
+
+<!-- Mirrored from ecart.shaktiwebsolutions.com/gambo_supermarket_demo/sign_in.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 15 Sep 2023 14:51:59 GMT -->
+</html>

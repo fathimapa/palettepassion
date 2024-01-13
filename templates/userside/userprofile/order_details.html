@@ -1,0 +1,209 @@
+{% extends 'userside/partial/base.html' %}
+
+{% load static %}
+
+
+{% block content %}
+<!-- Body Start -->
+<div class="wrapper">
+    <div class="gambo-Breadcrumb">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page"><a href="{% url 'dashboard' %}">User
+                                    Dashboard</a></li>
+                            {% include 'userside/includes/alert.html' %}
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="dashboard-group">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="user-dt">
+                        <div class="user-img">
+                            {% if userprofile.profile_picture.url != '' %}
+                            <img src="{{userprofile.profile_picture.url}}" alt="">
+                            {%endif%}
+                            <div class="img-add">
+                                <input type="file" id="file">
+                                <label for="file"><i class="uil uil-camera-plus"></i></label>
+                            </div>
+                        </div>
+                        <h4>{{user.username}}</h4>
+                        <p>{{user.phone_number}}<a href="{% url 'edit_profile' %}"><i class="uil uil-edit"></i></a></p>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="">
+        <div class="container">
+            <div class="row">
+                {% include 'userside/partial/dashboard_sidebar.html' %}
+                <div class="col-lg-9 col-md-8">
+                    <div class="dashboard-right">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="main-title-tab">
+                                    <h4><i class="uil uil-box"></i>Order Detail</h4>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12">
+                                <div class="pdpt-bg">
+                                    <div class="address-body">
+                                        <div class="container" id='invoice'>
+                                            <div class="row order_d_inner">
+                                                <div class="col-lg-6">
+                                                    <div class="details_item m-4">
+                                                        <h4 class="add-address hover-btn flex">Order Info</h4>
+                                                        <ul class="list">
+                                                            <li><a href="#"><span>Order number</span>
+                                                                    :#{{orders.order_number}}</a></li>
+                                                            <li><a href="#"><span>Order Date</span> :
+                                                                    {{orders.created_at}}</a></li>
+                                                            <li><a href="#"><span>Payment method</span> :
+                                                                    {{orders.payment.payment_method}}</a></li>
+                                                            <li><a href="#"><span>order status</span> :
+                                                                    {{orders.status}}</a></li>
+                                                            {% if orders.payment.payment_method == 'Paypal' %}
+                                                            <li><a href="#"><span>Transaction ID</span> :
+                                                                    {{orders.payment.payment_id}}</a></li>
+                                                            <li><a href="#"><span> payment status</span> :
+                                                                    {{orders.payment.status}}</a></li>
+                                                            {% else %}
+
+                                                            <li><a href="#"><span> payment status</span> :
+                                                                    {{orders.payment.status}}</a></li>
+                                                            {% endif %}
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="details_item m-4">
+                                                        <h4 class="add-address hover-btn flex">Shipping Address</h4>
+                                                        <ul class="list">
+                                                            <li><a href="#"><span>Name</span> : {{orders.full_name}}</a>
+                                                            </li>
+                                                            <li><a href="#"><span>Address</span> :
+                                                                    {{orders.full_address}}</a></li>
+                                                            <li><a href="#"><span>City</span> : {{orders.city}}</a></li>
+                                                            <li><a href="#"><span>Country</span> :
+                                                                    {{orders.country}}</a></li>
+                                                            <li><a href="#"><span>Email </span> : {{orders.email}}</a>
+                                                            </li>
+                                                            <li><a href="#"><span>Mob </span> : {{orders.phone}}</a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {% for item in order_detail %}
+                                            <div class="pdpt-title">
+                                                <h6>Order Date - {{orders.created_at}}</h6>
+                                            </div>
+                                            <div class="order-body10">
+                                                <ul class="order-dtsll">
+                                                    <li>
+                                                        <div class="order-dt-img">
+                                                            <img src="{{item.product.image.url}}" alt="">
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="order-dt47">
+                                                            <h4>Product - {{item.product}}</h4>
+                                                            <p>Size - {{item.variations}}</p>
+                                                            <div class="order-title">{{item.quantity}} Items <span
+                                                                    data-inverted="" data-tooltip="{{item.product}}"
+                                                                    data-position="top center">?</span></div>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                                {% endfor %}
+
+                                                <div class="total-dt">
+                                                    <div class="total-checkout-group">
+                                                        <div class="cart-total-dil">
+                                                            <h4>Sub Total</h4>
+                                                            <span>${{total}}</span>
+                                                        </div>
+                                                        <div class="cart-total-dil pt-3">
+                                                            <h4>Tax</h4>
+                                                            <span>${{tax}}</span>
+                                                        </div>
+                                                        <div class="cart-total-dil pt-3">
+                                                            <h4>Delivery Charges</h4>
+                                                            <span>${{shipping}}</span>
+                                                        </div>
+                                                        {% if orders.order_discount %}
+                                                        <div class="cart-total-dil pt-3">
+                                                            <h4>Discount</h4>
+                                                            <span>${{orders.order_discount}}</span>
+                                                        </div>
+                                                        {% endif %}
+
+                                                    </div>
+                                                    <div class="main-total-cart">
+                                                        <h2>Total</h2>
+                                                        <span>${{orders.order_total}}</span>
+                                                    </div>
+                                                </div>
+                                                <div class="call-bill">
+                                                    <div class="delivery-man">
+                                                        <!-- Delivery Boy - <a href="#"><i class="uil uil-phone"></i> Call Us</a> -->
+                                                    </div>
+                                                    <div class="order-bill-slip">
+                                                        <div style="display: flex;justify-content: center;">
+                                                            <a href="{% url 'invoice' orders.order_number %}">
+                                                            <input type="button"
+                                                                class="btn btn-dark btn-md align-center m-4"
+                                                                id="btnExport" value="Download Invoice" /></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"
+    integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.22/pdfmake.min.js"></script>
+<script type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+<script type="text/javascript">
+    $("body").on("click", "#btnExport", function () {
+        console.log('hi')
+        html2canvas($('#invoice')[0], {
+            onrendered: function (canvas) {
+                var data = canvas.toDataURL();
+                var docDefinition = {
+                    content: [{
+                        image: data,
+                        width: 500
+                    }]
+                };
+                pdfMake.createPdf(docDefinition).download("invoice.pdf");
+            }
+        });
+    });
+</script> -->
+
+{% endblock content %}

@@ -1,0 +1,346 @@
+{% extends 'userside/partial/base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<!-- Body Start -->
+<div class="wrapper">
+    <div class="gambo-Breadcrumb">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Payment</li>
+                            {% include 'userside/includes/alert.html' %}
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% csrf_token %}
+    <div class="all-product-grid">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-md-7">
+                    <div class="card" style="margin-bottom: 18px;">
+                        <h3 class="card-header" style="background-color: rgba(0, 0, 0, 0.782); color: whitesmoke;">Billing address</h3>
+                        <div class="card-body">
+                            <p class="card-text mb-0">{{order.full_name}}</p>
+                            <p class="card-text mb-0">{{order.full_address}}</p>
+                            <p class="card-text mb-0">{{order.city}}, {{order.state}}</p>
+                            <p class="card-text mb-0">{{order.country}}</p>
+                            <p class="card-text mb-0">{{order.email}}</p>
+                            <p class="card-text mb-0">{{order.phone}}</p>
+                            {% if order.order_note %}
+                            <b>Order Note:</b>{{order.order_note}}
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="card" >
+                        <h3 class="card-header" style="background-color: rgba(0, 0, 0, 0.782); color: whitesmoke;">Review Products</h3>
+                        <div class="card-body">
+
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Product</th>
+                                        <th scope="col"></th>
+                                        <th scope="col">Quantity</th>
+                                        <th scope="col">Total</th>
+
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    {% for cart_item in cart_items %}
+                                    <tr>
+                                        <td>
+                                            <div class="media">
+                                                <div class="d-flex">
+                                                    <a href="#"> <img src="{{cart_item.product.image.url}}"
+                                                            style="width:70px;height:70px" alt=""></a>
+                                                </div>
+                                                <div class="media-body" style="margin-left:10px;">
+                                                    <p class="text-primary medium">
+                                                        {{cart_item.product.product_name }}</p>
+                                                    <p class="text-danger small" style="margin-top: -21px;">
+                                                        {{cart_item.size_variant}}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <h5></h5>
+                                        </td>
+                                        <td>
+                                            <p class="card-text">{{ cart_item.quantity }}</p>
+                                        </td>
+                                        <td>
+                                            <h5>${{ cart_item.sub_total }}</h5>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div id="checkout_wizard" class="checkout accordion left-chck145">
+                        <div class="col-lg-8">
+                            
+                            
+                        </div>
+                        <div class="checkout-step">
+                            <div id="collapseFour" aria-labelledby="headingFour" data-parent="#checkout_wizard">
+                                <div class="checkout-step-body">
+                                    <div class="payment_method-checkout">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group return-departure-dts"
+                                                    data-method="cashondelivery">
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+                                                            <div class="pymnt_title">
+                                                                <h4>Cash on Delivery</h4>
+                                                                <p>Cash on Delivery will not be available if your order
+                                                                    value exceeds $10.</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                
+                                                <!-- <a href="#" class="next-btn16 hover-btn">Place Order</a> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-5">
+                    <div class="pdpt-bg mt-0">
+                        <div class="pdpt-title" style="background-color: rgba(0, 0, 0, 0.782);">
+                            <h4 style=" color: whitesmoke;">Order Summary</h4>
+                        </div>
+                        <div class="total-checkout-group">
+                            <div class="cart-total-dil">
+                                <h4>Net Total</h4>
+                                <span>${{total}}</span>
+                            </div>
+                            <div class="cart-total-dil pt-3">
+                                <h4>Tax</h4>
+                                <span>${{tax}}</span>
+                            </div>
+                            <div class="cart-total-dil pt-3">
+                                <h4>Shipping Charge</h4>
+                                <span>${{tax}}</span>
+                            </div>
+                            <div class="cart-total-dil pt-3">
+
+                                {% if coupon_discount %}
+
+                                <h4 class="text-success">Discount :</h4>
+                                <span class="cart_amount text-success">-${{coupon_discount}}</span>
+
+                                {% endif %}
+                            </div>
+
+                        </div>
+
+                        <div class="main-total-cart">
+                            <h2>Grand Total</h2>
+                            <span>${{grand_total}}</span>
+                        </div>
+                        <div class="radio-item" >
+                            <label type="submit" class="radio-label_1" data-toggle="modal"
+                                data-target="#a{{i.id}}" style="background-color: rgba(0, 0, 0, 0.782); color: whitesmoke; text-align: center;">Cash on Delivery</label>
+                        </div>
+                        <div class="radio-item" >
+                            {% if profile.wallet >= order.order_total %}
+                            {% debug %}
+                            <div>{{order.order}}</div>
+                            {% endif %}
+                        
+                        <button type="submit" data-toggle="modal" data-target="#b{{i.id}}" class="btn btn-danger btn-lg btn-block mb-2">Wallet Payment
+                                    </button>
+                        
+                        </div>
+                        
+                        <div id="paypal-button-container"></div>  
+                    </div>
+                    <a href="#" class="promo-link45">Have a promocode?</a>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Body End -->
+
+<!-- Modal -->
+<div class="modal fade" id="a{{i.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: coral;">
+                <h5 class="modal-title" id="exampleModalLabel">payment confirmation</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h5 class="modal-title" id="exampleModalLabel">You are Choosed Cash On Delivary</h5>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <a href="{% url 'cash_on_delivery' order_number %}"><button type="button"
+                        class="btn btn-secondary">Proceed</button></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="b{{i.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">payment confirmation</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h5 class="modal-title" id="exampleModalLabel">You are choosed Wallet payment</h5>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <a href="{% url 'wallet' order_number %}"><button type="button" class="btn btn-primary">Proceed</button></a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Set up a container element for the button -->
+
+
+<script src="https://www.paypal.com/sdk/js?client-id=AR1ClKp4rS8Bj8llPByjuKiaBhHMg_Ogf43DFSj8MZJdczr4O_k_C1eCO_ockaxkj_XJRYIErCCYHLz0&currency=USD"></script>
+
+<!-- <script>
+
+    var total = "{{grand_total}}"
+    // Render the PayPal button into #paypal-button-container
+    paypal.Buttons({
+
+        style:{
+            color : "blue",
+            shape : "rect",
+        },
+
+        // Call your server to set up the transaction
+        createOrder: function(data, actions) {
+            return actions.order.create({
+                purchase_units :[{
+                    amount:{
+                        value: parseFloat(total).toFixed(2)
+                    }
+                }]
+            });
+        },
+
+        // Call your server to finalize the transaction
+        onApprove: function(data, actions) {
+            return actions.order.capture().then(function(details){
+                alert('Transactions completed by' + details.payer.name.given_name + "!")
+            });
+        }
+
+    }).render('#paypal-button-container');
+
+</script> -->
+<script>
+    function getCookie(name) {
+        
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+            }
+    var amount = "{{grand_total}}" 
+    var url = "{% url 'payments' %}"
+    var csrftoken = getCookie('csrftoken');
+    var orderID = "{{order.order_number}}"
+    var payment_method = 'Paypal'
+    var redirect_url = "{% url 'payments_completed' %}"
+      // wait for on load event to ensure the JS SDK is loaded
+    window.addEventListener('load', (event) => {
+        
+        var options = {
+        createOrder: function(data, actions) {
+            // This function sets up the details of the transaction, including the amount and line item details. 
+            return actions.order.create({
+            purchase_units: [{
+                amount: {
+                    value: parseFloat(amount).toFixed(2),
+                }
+            }]
+            });
+        },
+        onApprove: function(data, actions) {
+            // This function captures the funds from the transaction. 
+            return actions.order.capture().then(function(details) {
+              // This function shows a transaction success message to your buyer. 
+                console.log(details);
+                
+                
+                sendData();
+                function sendData(){
+                fetch(url,{
+                    method :"POST",
+                    headers : {
+                        "Content-type": "application/json",
+                        "X-CSRFToken": csrftoken,
+                    },
+                    body: JSON.stringify({
+                        orderID: orderID,
+                        transID: details.id,
+                        status: details.status,
+                        payment_method:payment_method,
+                    }),
+    
+                })
+                    .then((response) => response.json())
+                    .then((data) => {
+                    console.log('Success',data);
+                    console.log(data.transID +" transid testing")
+                    console.log('Transaction completed')
+                    window.location.href = redirect_url + '?order_number='+data.order_number+'&payment_id='+data.transID;
+                })            
+            }
+        })
+    }
+};
+        // This function displays Smart Payment Buttons on your web page. 
+        window.paypal.Buttons(options).render('#paypal-button-container');
+        
+        
+    });
+</script>
+
+{% endblock content %}
