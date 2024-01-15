@@ -191,7 +191,9 @@ def deleteCheckoutAddress(request,id):
 
 def AddCheckoutAddress(request):
     if request.method == 'POST':
-        form = AddressForm(request.POST)
+        # print(request.user)
+        # userprofile = UserProfile.objects.get(user=request.user)
+        form = AddressForm(request.POST,request.FILES,)
         if form.is_valid():
             print('form is valid')
             detail = Address()
@@ -208,12 +210,11 @@ def AddCheckoutAddress(request):
             detail.save()
             messages.success(request,'Address added Successfully')
             return redirect('checkout')
-            print('hello')
         else:
-            print("hi")
-            messages.error(request,'Form is Not valid')
+            messages.success(request,'Form is Not valid')
             return redirect('checkout')
-        
+    else:
+        form = AddressForm()
 
 @login_required(login_url='login')
 def my_orders(request):

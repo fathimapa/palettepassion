@@ -19,7 +19,7 @@ urlpatterns = [
     path('my_wallet/', views.my_wallet, name='my_wallet'),
     path('my_wishlist/', views.my_wishlist, name='my_wishlist'),
     path('order_details/<int:order_id>', views.order_details, name='order_details'),
-    path("invoice/<int:order_id>", views.generate_invoice_pdf,name='invoice')
+    path("invoice/<int:order_id>", views.generate_invoice_pdf,name='invoice'),
 
     # re_path(r'^.*/$', views.error, name='error'),
 ]

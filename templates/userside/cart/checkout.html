@@ -179,7 +179,7 @@
                                                                                         <b>{{item.full_name}}</b> <br />
                                                                                         {{item.address_line1}}<br />
                                                                                         {{item.address_line2}}<br />
-                                                                                        {{item.state}}<br />{{item.city}}<br />{{item.country}}
+                                                                                        {{item.state}}<br />{{item.city}}<br />{{item.country}} <br />{{item.zipcode}}
                                                                                     </p>
                                                                                     <p class="cart-text mb-0">
                                                                                         {{item.email}}</p>
@@ -357,6 +357,10 @@
                                     <div class="form-group col-md-6">
                                         <label>State</label>
                                         {{form.state}}
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label>State</label>
+                                        {{form.zipcode}}
                                     </div>
                                 </div>
                         </div>
