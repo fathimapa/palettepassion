@@ -459,7 +459,7 @@ def cancel_order(request,id):
         print(type(profile.user))
         print(type(profile.user.first_name))
         messages.success(request, profile.user.first_name +'cancelled' + str(order.order_number))
-        return redirect('orders')
+        return redirect('my_orders')
     else:
         messages.success(request,'item cancelled successfully')
         return redirect('my_orders')

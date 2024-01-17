@@ -321,29 +321,3 @@ def buy_now(request, product_id):
         return redirect('product_detail', args=(category_slug, product_slug,))
 
 
-def wishlist(request):
-    if request.method == 'POST':
-        try:
-            product_id = request.POST.get('product_id')
-            user = request.user  # Assuming logged-in user
-            wishlist, created = Wishlist.objects.get_or_create(user=user)
-            WishlistItem.objects.create(
-                wishlist=wishlist, product_id=product_id)
-            return JsonResponse({'success': True})
-        except Exception as e:
-            return JsonResponse({'success': False, 'error': str(e)})
-
-    elif request.method == 'DELETE':
-        try:
-            product_id = request.POST.get('product_id')
-            user = request.user
-            wishlist = Wishlist.objects.get(user=user)
-            wishlist_item = WishlistItem.objects.get(
-                wishlist=wishlist, product_id=product_id)
-            wishlist_item.delete()
-            return JsonResponse({'success': True})
-        except Exception as e:
-            return JsonResponse({'success': False, 'error': str(e)})
-
-    else:
-        return JsonResponse({'error': 'Invalid request method'})
