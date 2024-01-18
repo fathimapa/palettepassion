@@ -15,7 +15,8 @@ class Address(models.Model):
     address_line1 = models.CharField(max_length=50)
     address_line2 = models.CharField(max_length=50,null=True)
     state         = models.CharField(max_length=50)
-    country       = CountryField()
+    country_choices = list(CountryField().get_choices()) + [('', 'Select Country')]
+    country       = models.CharField(max_length=200, null=True, choices=country_choices)    
     city          = models.CharField(max_length=50,blank=True)
     zipcode       = models.CharField(max_length=20)
     order_note    = models.CharField(max_length=100, blank=True)
