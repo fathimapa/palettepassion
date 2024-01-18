@@ -79,53 +79,24 @@
                                                 <div class="col-12 col-md-4 ms-3 ">
                                                     <div class="shoping__continue mb-4" style="margin-left: -15px;">
                                                         <div class="shoping__discount card discountcard ">
-                                                                <h5 class="card-header">Discount Codes</h5>
+                                                            <h5 class="card-header">Discount Codes</h5>
                                                             <div class="card-body">
-                                                            <form id="coupon_form">
-                                                                <input type="text" id="coupon_data"
-                                                                    placeholder="Enter your coupon code">
-                                                                <button type="submit"
-                                                                    class="site-btn btn-warning m-1 applycoupon">APPLY
-                                                                    COUPON</button>
-                                                            </form>
+                                                                <form id="coupon_form">
+                                                                    <input type="text" id="coupon_data"
+                                                                        placeholder="Enter your coupon code">
+                                                                    <button type="submit"
+                                                                        class="site-btn btn-warning m-1 applycoupon">APPLY
+                                                                        COUPON</button>
+                                                                </form>
+                                                            </div>
                                                         </div>
-                                                        </div>
-                                                        
+
                                                     </div>
                                                     <p class="text-danger mt-3" id="output"></p>
                                                 </div>
                                             </div>
+
                                             
-                                            {% if coupons %}
-                                            <div class="accordion mt-3 shoping__discount mb-4 availablecoupon" id="accordionExample">
-                                                <h5>Available Coupons:</h5>
-                                                {% for item in coupons %}
-                                                <div class="card w-75 ">
-                                                    <div class="card-header " id="headingThree">
-                                                        <h2 class="mb-0">
-                                                            <button
-                                                                class="btn btn-link btn-block text-left collapsed text-danger text-decoration-none"
-                                                                type="button" data-toggle="collapse"
-                                                                data-target="#collapse{{forloop.counter}}"
-                                                                aria-expanded="false" aria-controls="collapseThree">
-                                                                <span class="text-dark">{{forloop.counter}}.</span>
-                                                                <b>-{{item.coupon.discount}}% Off</b>
-                                                            </button>
-                                                        </h2>
-                                                    </div>
-                                                    <div id="collapse{{forloop.counter}}" class="collapse"
-                                                        aria-labelledby="headingThree" data-parent="#accordionExample">
-                                                        <div class="card-body">
-                                                            <p><b>*</b>Applicable only for order price more than
-                                                                <b>${{item.coupon.min_value}}</b></p>
-                                                            <span class="ml-3">Coupon Code: <b
-                                                                    class="text-danger">{{item.coupon.code}}</b></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                {% endfor %}
-                                            </div>
-                                            {%endif%}
                                             <div class="col-lg-12">
                                                 <form class="row contact_form" action="{% url 'place_order' %}"
                                                     method="post">
@@ -179,7 +150,8 @@
                                                                                         <b>{{item.full_name}}</b> <br />
                                                                                         {{item.address_line1}}<br />
                                                                                         {{item.address_line2}}<br />
-                                                                                        {{item.state}}<br />{{item.city}}<br />{{item.country}} <br />{{item.zipcode}}
+                                                                                        {{item.state}}<br />{{item.city}}<br />{{item.country}}
+                                                                                        <br />{{item.zipcode}}
                                                                                     </p>
                                                                                     <p class="cart-text mb-0">
                                                                                         {{item.email}}</p>
@@ -225,17 +197,24 @@
                                                                     <span>${{tax}}</span>
                                                                 </div>
                                                                 <div class="cart-total-dil pt-3">
-                                                                    <div class="checkout__order__total" id="coupon_block" style="display: none;">Discount <span>- $<b id="coupon_discount"></b></span>
-                                                                        <h1 class="text-danger" style="font-size: 12px;">*Coupon Applied - <b id="coupon_code"></b></h1></div>
+                                                                    <div class="checkout__order__total"
+                                                                        id="coupon_block" style="display: none;">
+                                                                        Discount <span>- $<b
+                                                                                id="coupon_discount"></b></span>
+                                                                        <h1 class="text-danger"
+                                                                            style="font-size: 12px;">*Coupon Applied -
+                                                                            <b id="coupon_code"></b></h1>
+                                                                    </div>
                                                                 </div>
                                                             </div>
 
                                                             <div class="main-total-cart">
                                                                 <h2>Grand Total</h2>
-                                                                    <span id='grand_total'>${{grand_total}}</span>
-                                                                    <input type="text" name="coupon" id="coupon_code1" style="display: none;">
+                                                                <span id='grand_total'>${{grand_total}}</span>
+                                                                <input type="text" name="coupon" id="coupon_code1"
+                                                                    style="display: none;">
                                                             </div>
-                                                            
+
                                                             <div class="payment-secure">
                                                                 {% if not address %}
                                                                 <button type="submit"
@@ -284,12 +263,59 @@
                             <i class="uil uil-padlock"></i>Secure checkout
                         </div>
                     </div>
-                    <a href="#" class="promo-link45">Have a promocode?</a>
-                    <div class="checkout-safety-alerts">
-                        <p><i class="uil uil-sync"></i>100% Replacement Guarantee</p>
-                        <p><i class="uil uil-check-square"></i>100% Genuine Products</p>
-                        <p><i class="uil uil-shield-check"></i>Secure Payments</p>
+                    <a href="#" data-toggle="modal" data-target="#coupon_model" class="promo-link45">Available COUPONS</a>
+                    
+                    <div id="coupon_model" class="header-cate-model main-gambo-model modal fade" tabindex="-1"
+                        role="dialog" aria-modal="false">
+                        <div class="modal-dialog category-area" role="document">
+
+                            <div class="category-area-inner">
+                                <div class="modal-header">
+                                    <button type="button" class="close btn-close" data-dismiss="modal"
+                                        aria-label="Close">
+                                        <i class="uil uil-multiply"></i>
+                                    </button>
+                                </div>
+                                <div class="category-model-content modal-content">
+                                    <div class="cate-header">
+                                        <h4>Available Coupons:</h4>
+                                    </div>
+                                    {% if coupons %}
+                                            <div class="accordion mt-3 shoping__discount mb-4 availablecoupon"
+                                                id="accordionExample">
+                                                {% for item in coupons %}
+                                                <div class="card w-75 coupon">
+                                                    <div class="card-header " id="headingThree">
+                                                        <h2 class="mb-0">
+                                                            <button
+                                                                class="btn btn-link btn-block text-left collapsed text-danger text-decoration-none"
+                                                                type="button" data-toggle="collapse"
+                                                                data-target="#collapse{{forloop.counter}}"
+                                                                aria-expanded="false" aria-controls="collapseThree">
+                                                                <span class="text-dark">{{forloop.counter}}.</span>
+                                                                <b>-{{item.coupon.discount}}% Off</b>
+                                                            </button>
+                                                        </h2>
+                                                    </div>
+                                                    <div id="collapse{{forloop.counter}}" class="collapse"
+                                                        aria-labelledby="headingThree" data-parent="#accordionExample">
+                                                        <div class="card-body">
+                                                            <p><b>*</b>Applicable only for order price more than
+                                                                <b>${{item.coupon.min_value}}</b>
+                                                            </p>
+                                                            <span class="ml-3">Coupon Code: <b
+                                                                    class="text-danger">{{item.coupon.code}}</b></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {% endfor %}
+                                            </div>
+                                            {%endif%}
+                                </div>
+                            </div>
+                        </div>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -379,42 +405,42 @@
 
 
 <script>
-    $('#coupon_form').on('submit', function(e){
+    $('#coupon_form').on('submit', function (e) {
 
         e.preventDefault();
         $.ajax({
-               type : "POST", 
-               url: "{% url 'coupons' %}",
-               data: {
-                   coupon : $('#coupon_data').val(),
-                   grand_total : '{{grand_total}}',
+            type: "POST",
+            url: "{% url 'coupons' %}",
+            data: {
+                coupon: $('#coupon_data').val(),
+                grand_total: '{{grand_total}}',
                 csrfmiddlewaretoken: '{{ csrf_token }}',
                 dataType: "json",
-        
-               },
-               
-               success: function(data){
-                  $('#output').html(data.msg) /* response message */
-                  $('#grand_total').text('$'+data.grand_total)
-                  if (data.coupon_discount > 0) {
-                      $('#coupon_block').show()
-                      $('#accordionExample').hide()
-                  }
-                  $('#coupon_discount').html(data.coupon_discount)
-                  $('#coupon_code').html(data.coupon_code)
-                  $('#coupon_code1').val(data.coupon_code)
 
-                  
-               },
-        
-               failure: function() {
-                   
-               }
-        
-        
-           });
-        
-        
-                });  
+            },
+
+            success: function (data) {
+                $('#output').html(data.msg) /* response message */
+                $('#grand_total').text('$' + data.grand_total)
+                if (data.coupon_discount > 0) {
+                    $('#coupon_block').show()
+                    $('#accordionExample').hide()
+                }
+                $('#coupon_discount').html(data.coupon_discount)
+                $('#coupon_code').html(data.coupon_code)
+                $('#coupon_code1').val(data.coupon_code)
+
+
+            },
+
+            failure: function () {
+
+            }
+
+
+        });
+
+
+    });  
 </script>
 {% endblock content %}
