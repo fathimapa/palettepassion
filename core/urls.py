@@ -20,6 +20,7 @@ urlpatterns = [
     path('my_wishlist/', views.my_wishlist, name='my_wishlist'),
     path('order_details/<int:order_id>', views.order_details, name='order_details'),
     path("invoice/<int:order_id>", views.generate_invoice_pdf,name='invoice'),
+    path("contact_us",views.contact,name= 'contact'),
 
     # re_path(r'^.*/$', views.error, name='error'),
 ]

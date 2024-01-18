@@ -345,3 +345,6 @@ def generate_invoice_pdf(request,order_id):
     return response
     # return render(request,'userside/userprofile/invoice.html',context)
 
+
+def contact(request):
+    return render(request , 'userside/core/contact.html')
