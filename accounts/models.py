@@ -81,8 +81,9 @@ class UserProfile(models.Model):
     profile_picture  = models.ImageField(blank= True , upload_to= 'photos/userprofile/')
     city             = models.CharField(blank= True , max_length= 20)
     state            = models.CharField(blank= True , max_length= 20)
-    country_choices  = list(CountryField().get_choices()) + [('', 'Select Country')]
-    country          = models.CharField(max_length=200, null=True, choices=country_choices)
+    # country_choices  = list(CountryField().get_choices()) + [('', 'Select Country')]
+    # country          = models.CharField(max_length=200, null=True, choices=country_choices)
+    country          = CountryField(null = True ,max_length = 200)
     wallet           = models.FloatField(blank=True,null=True,default=0)
 
 

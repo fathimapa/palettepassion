@@ -15,8 +15,9 @@ class Address(models.Model):
     address_line1 = models.CharField(max_length=50)
     address_line2 = models.CharField(max_length=50,null=True)
     state         = models.CharField(max_length=50)
-    country_choices = list(CountryField().get_choices()) + [('', 'Select Country')]
-    country       = models.CharField(max_length=200, null=True, choices=country_choices)    
+    # country_choices = list(CountryField().get_choices()) + [('', 'Select Country')]
+    # country        = models.CharField(max_length=200, null=True, choices=country_choices)
+    country       = CountryField(max_length = 200)    
     city          = models.CharField(max_length=50,blank=True)
     zipcode       = models.CharField(max_length=20)
     order_note    = models.CharField(max_length=100, blank=True)
@@ -61,7 +62,7 @@ class Order(models.Model):
     email          = models.EmailField(max_length=50)
     address_line_1 = models.CharField(max_length=50)
     address_line_2 = models.CharField(max_length=50,blank=True)
-    country        = CountryField()
+    country        = CountryField(null = True)
     state          = models.CharField(max_length=50)
     city           = models.CharField(max_length=50)
     order_note     = models.CharField(max_length=100,blank=True)
