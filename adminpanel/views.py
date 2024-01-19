@@ -818,6 +818,7 @@ def salesReport(request):
         print("hello",orders.values('user_order_page__product__variation__size'))
 
     else:
+        print("Sales report else case")
         orders = Order.objects.filter(
             Q(created_at__lte=end_date),
             Q(created_at__gte=start_date),
