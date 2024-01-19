@@ -104,7 +104,8 @@ def my_address(request):
     current_user = request.user
     userprofile = UserProfile.objects.get(user=current_user)
     address = Address.objects.filter(user=current_user)
-    paginator = Paginator(address,3)
+    items_per_page = 10
+    paginator = Paginator(address,items_per_page)
     page= request.GET.get('page')
     paged_address = paginator.get_page(page)
 
@@ -132,6 +133,7 @@ def addAddress(request):
             detail.address_line2  = form.cleaned_data['address_line2']
             detail.state =  form.cleaned_data['state']
             detail.city =  form.cleaned_data['city']
+            detail.country = form.cleaned_data['country']
             detail.zipcode = form.cleaned_data['zipcode']
             detail.save()
             messages.success(request,'Address added Successfully')
@@ -206,6 +208,7 @@ def AddCheckoutAddress(request):
             detail.address_line2  = form.cleaned_data['address_line2']
             detail.state =  form.cleaned_data['state']
             detail.city =  form.cleaned_data['city']
+            detail.country = form.cleaned_data['country']
             detail.zipcode = form.cleaned_data['zipcode']
             detail.save()
             messages.success(request,'Address added Successfully')

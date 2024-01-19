@@ -848,6 +848,9 @@ def salesReport(request):
         val = year-i
         years.append(val)
 
+
+    
+
     
 
 
@@ -859,6 +862,8 @@ def salesReport(request):
         'end_date':end_date,
     
     }
+
+
     
     
     return render(request,'adminpanel/salesReport.html',context)
