@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 import os
 import environ
+from decouple import config
 env = environ.Env()
 
 environ.Env.read_env()
@@ -30,7 +31,7 @@ SECRET_KEY = env('SECRET_KEY_ID')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = config('ALLOWED_HOST', default='', cast=lambda v: [s.strip() for s in v.split(',')])
 
 
 # Application definition
