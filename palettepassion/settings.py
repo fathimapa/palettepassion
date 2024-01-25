@@ -190,8 +190,7 @@ EMAIL_USE_SSL = False
 EMAIL_DEBUG = True
 
 
-razor_pay_key_id = env("RAZORPAY_KEY")
-key_secret = env('RAZORPAY_SECRET')
+
 
 
 

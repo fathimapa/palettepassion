@@ -4,15 +4,27 @@
 
 {% block content %}
 <!-- Body Start -->
+<style>
+.shopempty{
 
+    background-color: black;
+}
+</style>
 
 <div class="wrapper">
 
     <div class="all-product-grid">
         <div class="container">
             <div class="product-middle-title">
-                <h2>Shopping Cart</h2>
                 {% include 'userside/includes/alert.html' %}
+                {% if not cart_items %}
+                <div class="text-center">
+                    <img src="{% static 'images/yourcarteempty.png' %}" style="width: 250px;"/>
+                    <h2 class="mb-5">Your Shopping Cart Is Empty</h2>
+                    <a href="{% url 'store' %}" class="btn btn-dark w-50 shopempty" > Continue Shopping</a>
+                </div>
+                {% else %}
+                <h2>Shopping Cart</h2>
 
                 <div class="row mt-5">
                     <div class="col-md-8">
@@ -185,6 +197,7 @@
                         </div>
                     </div>
                 </div>
+                {% endif %}
             </div>
         </div>
     </div>

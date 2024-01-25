@@ -1,5 +1,4 @@
 from django.shortcuts import get_object_or_404, render, redirect
-import razorpay
 from store.models import *
 from django.template.loader import render_to_string
 from django.core.paginator import Paginator
@@ -35,7 +34,9 @@ def store(request, category_slug=None):
     if max_price:
         products = products.filter(price__lte=max_price)
 
-    paginator = Paginator(products, 5)
+    max_page = 6
+
+    paginator = Paginator(products,max_page )
     page_number = request.GET.get('page')
     products_final = paginator.get_page(page_number)
     
@@ -96,16 +97,3 @@ def get_price_by_size(request, product_id, size):
     return JsonResponse(response_data)
 
 
-def create_razorpay_order(request):
-    current_user = request.user
-    if request.method == 'POST':
-
-        orders = Order.objects.filter(user=current_user, is_ordered=False)
-        for order in orders:
-            amount = float(order.order_total) * 100
-        client = razorpay.Client(
-            auth=("rzp_test_v1Zu1znDq4Sk12", "049dxqRWg1J3YJnYe3KJT9ON"))
-        data = {"amount": amount, "currency": "INR", "receipt": "order_rcptid_11"}
-        payment = client.order.create(data=data)
-        return JsonResponse({'order': payment})
-    

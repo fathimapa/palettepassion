@@ -22,7 +22,7 @@ urlpatterns = [
     path("invoice/<int:order_id>", views.generate_invoice_pdf,name='invoice'),
     path("contact_us",views.contact,name= 'contact'),
 
-    # re_path(r'^.*/$', views.error, name='error'),
+
 ]
 
-# handler404 = 'core.views.error'
+handler404 = 'core.views.error'

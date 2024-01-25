@@ -16,7 +16,7 @@ import random
 import string
 import tempfile
 import os
-
+from .models import *
 # Create your views here.
 
 def index(request):
@@ -252,8 +252,9 @@ def my_wishlist(request):
     }
     return render(request,'userside/userprofile/my_wishlist.html',context)
 
-# def error(request, *args, **kwargs):
-#     return render(request, 'userside/error/error.html', status=404)
+def error(request, exception):
+    data = {"name": "ThePythonDjango.com"}
+    return render(request, 'userside/error/error.html', data)
 
 @login_required(login_url='login')
 def order_details(request,order_id):
@@ -350,4 +351,16 @@ def generate_invoice_pdf(request,order_id):
 
 
 def contact(request):
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            name = request.POST['user']
+            email = request.POST['email']
+            subject = request.POST['subject']
+            message = request.POST['sendermessage']
+            Contact.objects.create(name = name ,email= email,subject =subject,message =message)
+            messages.success(request, 'Message send successful')
+            return redirect('contact')
+    else:
+        return redirect('login')
+
     return render(request , 'userside/core/contact.html')

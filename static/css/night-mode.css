@@ -344,7 +344,9 @@ Night Mood
       display:none;
   }
  .night-mode #logo .logo-inverse{
-      display:inline !important
+      display:inline !important;
+      width: 216px;
+      margin-left: -13px;
   }
  
 /* Titles & texts */
