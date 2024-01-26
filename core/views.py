@@ -17,6 +17,8 @@ import string
 import tempfile
 import os
 from .models import *
+from django.core.exceptions import PermissionDenied
+
 # Create your views here.
 
 def index(request):
@@ -252,9 +254,11 @@ def my_wishlist(request):
     }
     return render(request,'userside/userprofile/my_wishlist.html',context)
 
-def error(request, exception):
-    data = {"name": "ThePythonDjango.com"}
-    return render(request, 'userside/error/error.html', data)
+def error(request, exception = None):
+    return render(request, 'userside/error/error.html', status=404)
+
+# def permission_denied_view(request):
+#     raise PermissionDenied
 
 @login_required(login_url='login')
 def order_details(request,order_id):
@@ -334,6 +338,8 @@ def generate_invoice_pdf(request,order_id):
         temp_html_path = temp_html.name
 
     config = pdfkit.configuration(wkhtmltopdf=r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe')  # Adjust the path
+    pdfkit.from_url('https://www.palettepassion.shop', 'out-test.pdf', configuration=config)
+
 
     # Use the temporary HTML file path
     pdfkit.from_file(temp_html_path, 'invoice.pdf', configuration=config)  # Adjust the path
