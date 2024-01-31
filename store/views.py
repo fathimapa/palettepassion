@@ -6,7 +6,7 @@ from django.http import HttpResponse, JsonResponse
 from category.models import category
 from django.db.models import Q
 from order.models import *
-
+from core.models import *
 
 # Create your views here.
 
@@ -64,6 +64,8 @@ def search(request):
 
 def product_detail(request, category_slug, product_slug):
 
+    
+
     try:
         single_product = Product.objects.get(
             category__slug=category_slug, slug=product_slug, is_active=True)
@@ -73,6 +75,14 @@ def product_detail(request, category_slug, product_slug):
     except Product.DoesNotExist:
         # Assuming 'store' is the correct URL name for redirection
         return redirect('store')
+    
+
+    if request.user.is_authenticated:
+            #recent viewed product add
+            recent_viewed,created = RecentViewedProduct.objects.get_or_create(user=request.user,product=single_product)
+            if not created:
+                recent_viewed.updated_at = datetime.now()
+                recent_viewed.save()
 
     product_gallery = ProductGallery.objects.filter(
         product_id=single_product.id)
@@ -97,3 +107,6 @@ def get_price_by_size(request, product_id, size):
     return JsonResponse(response_data)
 
 
+def recently_added_products(request):
+    recent_products = Product.objects.all().order_by('-created_at')[:5]  # Get the 5 most recently added products
+    return render(request, 'userside/core/index.html', {'recent_products': recent_products})

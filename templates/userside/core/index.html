@@ -90,8 +90,15 @@
 								<img src="{{ product.image.url }}" alt="">
 								<div class="product-absolute-options">
 									<!-- <span class="offer-badge-1">6% off</span> -->
-									<span class="like-icon" title="wishlist"></span>
-									
+									{% if product.id in wishlist_items %}
+									<div class="wishlistButton" data-product-id="{{product.id}}" >
+										<span class="like-icon liked" title="wishlist"></span>
+									</div>
+									{% else %}
+									<div class="wishlistButton" data-product-id="{{product.id}}" >
+										<span class="like-icon" title="wishlist"></span>
+									</div>
+									{% endif %}									
 								</div>
 							</a>
 							<div class="product-text-dt">
@@ -127,36 +134,42 @@
 				height: 200px; /* Set your desired height */
 			}
 		</style>
-		
+		{% if recent_viewed_products %}
+
 		<div class="section145">
 			<div class="container">
 				<div class="row">
 					<div class="col-md-12">
 						<div class="main-title-tt">
 							<div class="main-title-left">
-								<span>For You</span>
-								<h2>Fresh Vegetables & Fruits</h2>
-							</div>
+								<h2 class="catg-heading-text py-4">
+									Recently Viewed Products
+									</h2> 							</div>
 							<a href="#" class="see-more-btn">See All</a>
 						</div>
 					</div>
-					{% for product in products %}
+					{% for product in recent_viewed_products %}
 					<div class="col-md-3">
 									<div class="product-item">
-										<a href="{{ product.get_url }}" class="product-img">
-											<img src="{{product.image.url}}" alt="">
+										<a href="{{ product.product.get_url }}" class="product-img">
+											<img src="{{product.product.image.url}}" alt="">
 											<div class="product-absolute-options">
 												<!-- <span class="offer-badge-1">6% off</span> -->
-												<span class="like-icon" title="wishlist"></span>
-											</div>
+												{% if product.id in wishlist_items %}
+												<div class="wishlistButton" data-product-id="{{product.id}}" >
+													<span class="like-icon liked" title="wishlist"></span>
+												</div>
+												{% else %}
+												<div class="wishlistButton" data-product-id="{{product.id}}" >
+													<span class="like-icon" title="wishlist"></span>
+												</div>
+												{% endif %}											</div>
 										</a>
 										<div class="product-text-dt">
-											<p>Available<span>(In Stock)</span></p>
-											<a href="{{ product.get_url }}">{{product.product_name}}</a>
-											<div class="product-price">${{product.price}}</div>
+											<a href="{{ product.product.get_url }}">{{product.product.product_name}}</a>
+											<div class="product-price">${{product.product.price}}</div>
 											<div class="qty-cart">
-												<a href="{{ product.get_url }}" class="btn w-100 btn-dark">
-													<span class="cart-icon"><i class="uil uil-shopping-cart-alt"></i></span>
+												<a href="{{ product.product.get_url }}" class="btn w-100 btn-dark">
 														SHOW</a>
 											</div>
 										</div>
@@ -166,9 +179,13 @@
 						</div>
 					</div>
 				</div>
+				{% else %}
+				{% endif %}
 			
 		<!-- Vegetables and Fruits Products End -->
 		<!-- New Products Start -->
+		{% if recent_products %}
+
 		<div class="section145">
 			<div class="container">
 				<div class="row">
@@ -181,25 +198,29 @@
 							<a href="#" class="see-more-btn">See All</a>
 						</div>
 					</div>
-							{% for product in products %}
+							{% for product in recent_products %}
 								<div class="col-md-3">
 									<div class="product-item">
 										<a href="{{ product.get_url }}" class="product-img">
 											<img src="{{product.image.url}}" alt="">
 											<div class="product-absolute-options">
 												<!-- <span class="offer-badge-1">6% off</span> -->
-												<span class="like-icon" title="wishlist"></span>
+												{% if product.id in wishlist_items %}
+												<div class="wishlistButton" data-product-id="{{product.id}}" >
+													<span class="like-icon liked" title="wishlist"></span>
+													
+												</div>
+												{% else %}
+												<div class="wishlistButton notLiked" data-product-id="{{product.id}}" >
+													<span class="like-icon" title="wishlist"></span>
+												</div>
+												{% endif %}
 											</div>
 										</a>
 										<div class="product-text-dt">
-											<p>Available<span>(In Stock)</span></p>
 											<a href="{{ product.get_url }}">{{product.product_name}}</a>
 											<div class="product-price">${{product.price}}</div>
-											<div class="qty-cart">
-												<a href="{% url 'add_cart' product.id %}" class="btn w-100 btn-dark">
-													<span class="cart-icon"><i class="uil uil-shopping-cart-alt"></i></span>
-														Add to cart </a>
-											</div>
+											
 										</div>
 									</div>
 								</div>
@@ -210,6 +231,9 @@
 		</div>
 		<!-- New Products End -->
 	</div>
+	{% else %}
+
+	{% endif %}
 	<!-- Body End -->
 	
 

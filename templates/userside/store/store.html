@@ -103,19 +103,21 @@
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
                                             <label>Min</label>
-                                            <input class="form-control min_price" placeholder="Rs 0" type="number"
-                                                id="filter-price-range-min" value="{% if min_price %}{{ min_price }}{% endif %}">
+                                            <input class="form-control min_price" placeholder="$ 0" type="number"
+                                                id="filter-price-range-min"
+                                                value="{% if min_price %}{{ min_price }}{% endif %}">
                                         </div>
                                         <div class="form-group text-right col-md-6">
                                             <label>Max</label>
-                                            <input class="form-control max_price" placeholder="Rs 5,000,00"
+                                            <input class="form-control max_price" placeholder="$ 5,000,00"
                                                 id="filter-price-range-max" type="number"
                                                 value="{% if max_price %}{{ max_price }}{% endif %}">
                                         </div>
                                     </div> <!-- form-row.// -->
-                                    <button class="btn btn-block btn-dark my-2" onclick="filterWithPriceRange('filter-price-range-min', 'filter-price-range-max')">Apply</button>
+                                    <button class="btn btn-block btn-dark my-2"
+                                        onclick="filterWithPriceRange('filter-price-range-min', 'filter-price-range-max')">Apply</button>
                                 </div><!-- card-body.// -->
-                                
+
                             </div>
                         </article>
                     </aside>
@@ -126,28 +128,41 @@
                             <a href="{{ product.get_url }}" class="product-img">
                                 <img src="{{product.image.url}}" alt="">
                                 <div class="product-absolute-options">
-                                    <span class="offer-badge-1">6% off</span>
-                                    <span class="like-icon" title="wishlist"></span>
+                                    {% if product.id in wishlist_items %}
+                                    <div class="wishlistButton" data-product-id="{{product.id}}">
+                                        <span class="like-icon liked" title="wishlist"></span>
+
+                                    </div>
+                                    {% else %}
+                                    <div class="wishlistButton notLiked" data-product-id="{{product.id}}">
+                                        <span class="like-icon" title="wishlist"></span>
+                                    </div>
+                                    {% endif %}
                                 </div>
                             </a>
                             <div class="product-text-dt">
-                                <p>Available<span>(In Stock)</span></p>
-                                <a href="{{ product.get_url }}">{{product.product_name}}</a>
-                                <div class="product-price">${{product.price}}</div>
-                                <div class="qty-cart">
-                                    <div class="quantity buttons_added">
-                                        <input type="button" value="-" class="minus minus-btn">
-                                        <input type="number" step="1" name="quantity" value="1"
-                                            class="input-text qty text">
-                                        <input type="button" value="+" class="plus plus-btn">
-                                    </div>
-                                    <span class="cart-icon"><i class="uil uil-shopping-cart-alt"></i></span>
-                                </div>
+                                {% if variant.product.stock <= 0 %} 
+                                <h6 class='text-danger text-center mt-3'>Out Of Stock</h6>
+                                {% else %}
+                                    <p>Available<span>(In Stock)</span></p>
+                                {% endif %}
+                                    <a href="{{ product.get_url }}">{{product.product_name}}</a>
+                                    <div class="product-price">${{product.price}}</div>
+
                             </div>
+                            
                         </div>
+
                     </div>
+                    {% empty %}
+                            <div>
+                                <img style=" padding-bottom: 53px;
+                                padding-left: 158px;
+                                padding-top: 73px;" 
+                                src="{% static 'images/notfound.png' %}" alt=""></div>
+                                </div>
                     {% endfor %}
-                
+
                 </div>
                 <div class="col-md-12">
                     <nav aria-label="..." class="text-center">
@@ -181,34 +196,34 @@
 <!-- Body End -->
 
 <script>
-    function filterWithPriceRange(min,max) {
-    const urlParams = new URLSearchParams(window.location.search);
+    function filterWithPriceRange(min, max) {
+        const urlParams = new URLSearchParams(window.location.search);
 
-    console.log("Min Price:", document.getElementById(min).value);
-    console.log("Max Price:", document.getElementById(max).value);
+        console.log("Min Price:", document.getElementById(min).value);
+        console.log("Max Price:", document.getElementById(max).value);
 
-    try{
-        var price_min = document.getElementById(min).value
+        try {
+            var price_min = document.getElementById(min).value
 
-    }
-    catch{
-        var price_min = 0
-    }
-    
-    try{
-        var price_max = document.getElementById(max).value
-
-    }
-    catch
-        {
-        var price_max = ''
+        }
+        catch {
+            var price_min = 0
         }
 
-    urlParams.set('min_price',  price_min.toString());
-    urlParams.set('max_price', price_max.toString());
-    
-    const newUrl = `${window.location.pathname}?${urlParams.toString()}`;
-    window.location.href = newUrl;
+        try {
+            var price_max = document.getElementById(max).value
+
+        }
+        catch
+        {
+            var price_max = ''
+        }
+
+        urlParams.set('min_price', price_min.toString());
+        urlParams.set('max_price', price_max.toString());
+
+        const newUrl = `${window.location.pathname}?${urlParams.toString()}`;
+        window.location.href = newUrl;
     }
 </script>
 {% endblock content %}

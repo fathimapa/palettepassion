@@ -112,6 +112,23 @@ $(".product_countdown-timer").each(function () {
 });
 
 
+
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+
 // === Banner Home === //
 $('.offers-banner').owlCarousel({
 	loop: true,
@@ -339,3 +356,55 @@ $(document).ready(function () {
 	});
 });
 
+
+//add to wishlist
+
+$(".wishlistButton").click(addToWhishlist);
+
+function addToWhishlist(e) {
+
+	
+
+	let variant= $(this).attr("data-product-id");
+
+
+
+	var url = '/cart/whishlist/add/'
+
+	var data = {
+		variant: variant,
+	};
+
+	$.ajax({
+		type: "POST",
+		url: url,  // Replace with the actual URL for your view
+		dataType: "json",
+		data: JSON.stringify(data),
+		headers: {
+			"X-Requested-With": "XMLHttpRequest",
+			"X-CSRFToken": getCookie("csrftoken"),
+		},
+		success: (data) => {
+			if (data.status === "success") {
+				// success
+				console.log(data);
+				
+				// location.reload()
+
+			} else {
+				// Password change error
+				console.log(data);
+				window.location.href = data.login_url;
+				// Display the error message on the page
+			}
+
+		},
+		error: (xhr, status, error) => {
+			// Display the error message on the page
+			console.log("error");
+			console.log(error);
+		}
+	});
+
+
+}

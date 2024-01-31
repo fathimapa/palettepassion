@@ -9,6 +9,7 @@ from django.urls import reverse
 from django.contrib import messages
 from order.models import *
 from core.forms import *
+import json
 
 
 # Create your views here.
@@ -269,6 +270,16 @@ def get_cart_count(request):
     return JsonResponse({'cart_count': cart_count})
 
 
+def get_wishlist_count(request):
+    if request.user.is_authenticated:
+        wish_count = WishlistItem.objects.filter(wishlist__user=request.user).count()
+
+    else:
+        wish_count = 0
+
+    return JsonResponse({'wish_count': wish_count})
+
+
 def buy_now(request, product_id):
     size = request.GET.get('select_size', '').strip()
     product = Product.objects.get(pk=product_id)
@@ -321,3 +332,31 @@ def buy_now(request, product_id):
         return redirect('product_detail', args=(category_slug, product_slug,))
 
 
+def add_whishlist(request):
+    
+    if not request.user.is_authenticated:
+        login_url = reverse('login')
+        
+        return JsonResponse({"status": "error", "message": "user not authenticated","user":0,"login_url":login_url})
+    
+    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+    if request.method == "POST" and is_ajax:
+        data = json.load(request)
+        variant = data.get('variant')
+        wishlist,created = Wishlist.objects.get_or_create(user=request.user)
+        try:
+            product_variant = Product.objects.get(id=variant)
+        except :
+            return JsonResponse({"status": "error", "message": "Product Not Found"})
+        
+        wishlist_Item,created = WishlistItem.objects.get_or_create(wishlist=wishlist,product=product_variant)
+        if not created:
+            wishlist_Item.delete()
+        # Update the order status based on the order_number and selected_option
+
+        return JsonResponse({"status": "success"})
+        
+    else:
+        # Return a JSON response indicating an invalid request
+        return JsonResponse({"status": "error", "message": "Invalid request"})
+    

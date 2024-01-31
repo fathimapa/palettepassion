@@ -8,6 +8,7 @@ from django.contrib import messages , auth
 from order.models import *
 from django.core.paginator import EmptyPage,PageNotAnInteger,Paginator
 from .forms import *
+from carts.models import *
 from banner_management.models import *
 # from core.renderer
 import jinja2
@@ -24,10 +25,14 @@ from django.core.exceptions import PermissionDenied
 def index(request):
     products = Product.objects.all().filter(is_active = True)
     banners = Banner.objects.filter(is_active=True)
-
+    if request.user.is_authenticated:
+        recent_viewed_products = RecentViewedProduct.objects.select_related('product').filter(user=request.user).order_by('-updated_at')[:6]
+    else:
+        recent_viewed_products=None
     context = {
         'products' : products,
         'banners':banners,
+        'recent_viewed_products':recent_viewed_products,
     }
     return render(request , 'userside/core/index.html',context)
 
@@ -249,9 +254,21 @@ def my_wallet(request):
 
 def my_wishlist(request):
     userprofile = UserProfile.objects.get(user=request.user)
+
+    wishlist,created = Wishlist.objects.get_or_create(user=request.user)
+    wishlistItems = WishlistItem.objects.filter(wishlist=wishlist,is_active=True).order_by('-created_at')
+    wishlistItems_count = wishlistItems.count()
+    
+    paginator = Paginator(wishlistItems,10)
+    page = request.GET.get('page')
+    paged_wishlist = paginator.get_page(page)
+    
     context = {
+        'wishlistItems':paged_wishlist,
         "userprofile": userprofile,
+        'wishlistItems_count':wishlistItems_count
     }
+    
     return render(request,'userside/userprofile/my_wishlist.html',context)
 
 def error(request, exception = None):

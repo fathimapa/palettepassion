@@ -33,7 +33,7 @@ class Wishlist(models.Model):
     date_added = models.DateField(auto_now_add=True)
 
 class WishlistItem(models.Model):
-    Wishlist = models.ForeignKey(Wishlist,on_delete=models.CASCADE)
+    wishlist = models.ForeignKey(Wishlist,on_delete=models.CASCADE)
     product = models.ForeignKey(Product,on_delete=models.CASCADE)
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add= True)

@@ -37,43 +37,41 @@
                             </div>								
                             <div class="col-lg-12 col-md-12">
                                 <div class="pdpt-bg">
+                                    <header class="card-header">
+                                        <strong class="d-inline-block mr-3">All Wishlist ({{wishlistItems_count}})</strong>
+                                    </header>
                                     <div class="wishlist-body-dtt">
+                                        {% for wishlistItem in wishlistItems %}
                                         <div class="cart-item">
                                             <div class="cart-product-img">
-                                                <img src="images/product/img-11.jpg" alt="">
-                                                <div class="offer-badge">4% OFF</div>
+                                                <img src="{{ wishlistItem.product.image.url }}" alt="">
                                             </div>
-                                            <div class="cart-text">
-                                                <h4>Product Title Here</h4>
-                                                <div class="cart-item-price">$15 <span>$18</span></div>
-                                                <button type="button" class="cart-close-btn"><i class="uil uil-trash-alt"></i></button>
-                                            </div>		
-                                        </div>
-                                        <div class="cart-item">
-                                            <div class="cart-product-img">
-                                                <img src="images/product/img-2.jpg" alt="">
-                                                <div class="offer-badge">1% OFF</div>
+                                            <div class="cart-text" style="display: flex; align-items: center; justify-content: space-between;">
+                                                <div>
+                                                    <a href="{{wishlistItem.product.get_url}}" class="title text-dark line-clamp">
+
+                                                    <h3>{{ wishlistItem.product.product_name }}</h3>
+                                                    <div > {{ wishlistItem.product.category.category_name }}</div>
+                                                    </a>
+                                                </div>
+                                                <div class="wishlistButton" data-product-id="{{wishlistItem.product.id}}">
+                                                    <span class="like-icon liked" title="wishlist"></span>
+                                                </div>
                                             </div>
-                                            <div class="cart-text">
-                                                <h4>Product Title Here</h4>
-                                                <div class="cart-item-price">$9.9 <span>$10</span></div>
-                                                <button type="button" class="cart-close-btn"><i class="uil uil-trash-alt"></i></button>
-                                            </div>		
+                                                
                                         </div>
-                                        <div class="cart-item">
-                                            <div class="cart-product-img">
-                                                <img src="images/product/img-14.jpg" alt="">
-                                            </div>
-                                            <div class="cart-text">
-                                                <h4>Product Title Here</h4>
-                                                <div class="cart-item-price">$12</div>
-                                                <button type="button" class="cart-close-btn"><i class="uil uil-trash-alt"></i></button>
-                                            </div>		
+                                        {% empty %}
+                                        <div>
+                                        <img style=" padding-bottom: 53px;
+                                        padding-left: 158px;
+                                        padding-top: 73px;" 
+                                        src="{% static 'images/notfound.png' %}" alt=""></div>
                                         </div>
-                                    </div>
+                                        
+                                        {% endfor %}
+                                    
                                 </div>
                             </div>
-                        </div>
                     </div>
                 </div>
             </div>
