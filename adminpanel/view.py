@@ -101,6 +101,8 @@ class ProductList(ListView):
     model = Product
     template_name = "adminpanel/product_list.html"
     context_object_name = "products"
+    ordering = ['id']
+
 
 
 '''This 2 functions are for custom added delete button functionality. If you don't want to use custom delete buttons than don't add this'''

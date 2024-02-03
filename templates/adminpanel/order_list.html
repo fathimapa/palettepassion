@@ -28,7 +28,7 @@
         </div>
         <div class="table_data_check">
             <div class="table_head_sec">
-                <h2>ALL Product LIST</h2>
+                <h2>ALL Order LIST</h2>
             </div>
             <div class="table_overflow">
                 <form action="" method="POST" id="block_action">
@@ -54,7 +54,7 @@
                             <tr>
                                 <td><input type="checkbox" name="variation_id[]" class="check_select"
                                         value="{{ var.id }}"></td>
-                                <td>{{forloop.counter}}</td>
+                                <td>{{order.id}}</td>
                                 <td>{{order.user}}</td>
                                 <td>{{order.order_number}}</td>
                                 <td>{{order.full_name}}</td>

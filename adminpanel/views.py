@@ -343,7 +343,7 @@ def admin_logout(request):
 
 @check_isadmin
 def admin_user_management(request):
-    users = Account.objects.all()
+    users = Account.objects.all().order_by('id')
     context={
         
         'users' : users,
@@ -428,7 +428,7 @@ def admn_users_block_unblock(request):
 
 @check_isadmin
 def admin_category_management(request):
-    categories = category.objects.all()
+    categories = category.objects.all().order_by('id')
     context={
         
         'categories' : categories,
@@ -547,6 +547,7 @@ class VariationList(AdminRequiredMixin,ListView):
     model = Variation
     template_name = "adminpanel/variation_list.html"
     context_object_name = "variations"
+    ordering = ['id']
 
 
 #------------------Admin Side Add Variation-----------------#
@@ -624,6 +625,7 @@ class OrderList(AdminRequiredMixin,ListView):
     model = Order
     template_name = "adminpanel/order_list.html"
     context_object_name = "orders"
+    ordering = ['id']
 
 
 #------------------Admin Side Edit Order-----------------#
@@ -645,6 +647,8 @@ class CouponList(AdminRequiredMixin,ListView):
     model = Coupon
     template_name = "adminpanel/coupon_list.html"
     context_object_name = "coupons"
+    ordering = ['id']
+
 
 
 #------------------Admin Side Add Coupon-----------------#
@@ -712,6 +716,8 @@ class BannerList(AdminRequiredMixin,ListView):
     model = Banner
     template_name = "adminpanel/banner_list.html"
     context_object_name = "banners"
+    ordering = ['id']
+
 
 
 #------------------Admin Side Add Banner-----------------#
