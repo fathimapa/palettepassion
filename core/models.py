@@ -14,7 +14,7 @@ class Contact(models.Model):
     
 @receiver(post_save, sender=Contact)
 def _post_save_receiver(sender, instance, **kwargs):
-    subject = 'Your 6-digit OTP for email verification'
+    subject = 'This is contact us Mails from Your Users '
     message = f'{instance.message}'
     from_email = instance.email 
     recipient_email =  'fathimagm0@gmail.com'

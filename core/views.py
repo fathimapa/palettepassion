@@ -36,6 +36,8 @@ def index(request):
     }
     return render(request , 'userside/core/index.html',context)
 
+
+@login_required(login_url='login')
 def dashboard(request):
     userprofile = UserProfile.objects.get(user=request.user)
     context= {
@@ -197,7 +199,7 @@ def deleteCheckoutAddress(request,id):
     return redirect('checkout')
 
 
-
+@login_required(login_url='login')
 def AddCheckoutAddress(request):
     if request.method == 'POST':
         # print(request.user)
@@ -245,6 +247,8 @@ def my_orders(request):
 
     return render(request,'userside/userprofile/my_orders.html',context)
 
+
+@login_required(login_url='login')
 def my_wallet(request):
     userprofile = UserProfile.objects.get(user=request.user)
     context= {
@@ -252,9 +256,11 @@ def my_wallet(request):
     }
     return render(request,'userside/userprofile/my_wallet.html',context)
 
+
+@login_required(login_url='login')
 def my_wishlist(request):
     userprofile = UserProfile.objects.get(user=request.user)
-
+    
     wishlist,created = Wishlist.objects.get_or_create(user=request.user)
     wishlistItems = WishlistItem.objects.filter(wishlist=wishlist,is_active=True).order_by('-created_at')
     wishlistItems_count = wishlistItems.count()

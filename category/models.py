@@ -4,7 +4,7 @@ from django.urls import reverse
 
 class category(models.Model):
     category_name    = models.CharField(max_length = 50 , unique = True)
-    slug             = models.SlugField(max_length = 100 , unique = False,default="ok" )
+    slug             = models.SlugField(max_length = 100 , unique = True)
     description      = models.TextField(max_length = 255 )
     category_image   = models.ImageField(upload_to= 'photos/categories' , blank= True)
     is_active        = models.BooleanField(default= True)
