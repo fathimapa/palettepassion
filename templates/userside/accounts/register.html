@@ -92,8 +92,13 @@
 										<div class="form-group pos_rel">
 											<input id="{{ form.password.id_for_label }}" name="{{ form.password.name }}"
 												type="password" placeholder="New Password"
-												class="form-control lgn_input" required="">
+												class="form-control lgn_input" required=""  onfocus="showPasswordHint()" onblur="hidePasswordHint()">
 											<i class="uil uil-padlock lgn_icon"></i>
+											
+										</div>
+										<div id="password-hint" style="display: none;">
+											Password must be at least 8 characters long and contain at least one digit,
+											one letter (uppercase and lowercase), and one special character.
 										</div>
 										<div class="form-group pos_rel">
 											<input id="{{ form.confirm_password.id_for_label }}"
@@ -101,6 +106,7 @@
 												placeholder="Repeat Password" class="form-control lgn_input"
 												required="">
 											<i class="uil uil-padlock lgn_icon"></i>
+											
 										</div>
 										<button class="login-btn hover-btn" type="submit">Sign Up Now</button>
 

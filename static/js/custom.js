@@ -408,3 +408,13 @@ function addToWhishlist(e) {
 
 
 }
+
+function showPasswordHint() {
+    var hintElement = document.getElementById('password-hint');
+    hintElement.style.display = 'block';
+  }
+
+  function hidePasswordHint() {
+    var hintElement = document.getElementById('password-hint');
+    hintElement.style.display = 'none';
+  }

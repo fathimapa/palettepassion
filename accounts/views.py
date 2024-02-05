@@ -63,12 +63,12 @@ def login(request):
             messages.success(request , 'You are now logged in')
             return redirect("dashboard")
         
-        if not Account.objects.filter(email=email,is_active=True).exists():
+        if Account.objects.filter(email=email,is_active=False).exists():
             messages.error(request, "You are blocked by admin ! Please contact admin ")
             return redirect('login')
         
         else:
-            messages.error(request, 'Invalid login credentials')
+            messages.error(request, 'Invalid email or password. Please try again.')
             return redirect('login')
 
     return render(request, 'userside/accounts/login.html')
@@ -94,18 +94,18 @@ def sent_otp(request):
     return redirect('otp_verification')
 
 def otp_verification(request):
-   if request.user.is_authenticated:
+    if request.user.is_authenticated:
         return redirect(index)
-   user=Account.objects.get(email = request.session['email'])
-   if request.method=="POST":
-      if str(request.session['OTP_Key']) != str(request.POST['otp']):
-         print(request.session['OTP_Key'],request.POST['otp'])
-         user.is_active=False
-      else:
-         auth.login(request,user)
-         messages.success(request, "signup successful!")
-         return redirect(login)
-   return render(request,'userside/accounts/otp_verification.html')
+    user=Account.objects.get(email = request.session['email'])
+    if request.method=="POST":
+        if str(request.session['OTP_Key']) != str(request.POST['otp']):
+            print(request.session['OTP_Key'],request.POST['otp'])
+            user.delete()
+        else:
+            auth.login(request,user)
+            messages.success(request, "signup successful!")
+            return redirect(login)
+    return render(request,'userside/accounts/otp_verification.html')
 
 
 def resend_otp(request):

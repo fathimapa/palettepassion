@@ -141,7 +141,11 @@
 						{% else %}
 						<li class="ui dropdown">
 							<a href="#" class="opts_account">
+								{% if user.userprofile.profile_picture.url != '' %}
+                                <img src="{{user.userprofile.profile_picture.url}}" alt="">
+                                {% else %}
 								<img src="{% static 'images/avatar/img-5.jpg' %}" alt="">
+								{%endif%}
 								<span class="user__name">{{user.username}}</span>
 								<i class="uil uil-angle-down"></i>
 							</a>
@@ -222,7 +226,7 @@
 						<ul class="call-email-alt">
 							<li><a href="" class="callemail"><i class="uil uil-dialpad-alt"></i>1800-000-000</a></li>
 							<li><a href="" class="callemail"><i
-										class="uil uil-envelope-alt"></i>info@gambosupermarket.com</a></li>
+										class="uil uil-envelope-alt"></i>info@PalattePassion.com</a></li>
 						</ul>
 					</div>
 					<div class="col-md-6 col-sm-6">

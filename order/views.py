@@ -12,6 +12,7 @@ from django.contrib import messages , auth
 
 # Create your views here.
 def payments(request):
+    user = request.user
     body = json.loads(request.body)
     order = Order.objects.get(user=request.user,is_ordered=False,order_number=body['orderID'])
     payment = Payment(

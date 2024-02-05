@@ -30,6 +30,26 @@ class RegisterationForm(forms.ModelForm):
         password = cleaned_data.get('password')
         confirm_password = cleaned_data.get('confirm_password')
 
+        if len(password) < 8:
+            raise forms.ValidationError("Password must be at least 8 characters long.")
+
+        if not any(char.isdigit() for char in password):
+            raise forms.ValidationError("Password must contain at least one digit.")
+
+        if not any(char.isalpha() for char in password):
+            raise forms.ValidationError("Password must contain at least one letter.")
+
+        if not any(char.isupper() for char in password):
+            raise forms.ValidationError("Password must contain at least one uppercase letter.")
+
+        if not any(char.islower() for char in password):
+            raise forms.ValidationError("Password must contain at least one lowercase letter.")
+
+        # Add your own logic for special character validation
+        special_characters = r'[@_!#$%^&*()<>?/\|}{~:]'
+        if not re.search(special_characters, password):
+            raise forms.ValidationError("Password must contain at least one special character.")
+
         if password != confirm_password:
             raise forms.ValidationError(
                 "Password does not match!"
@@ -48,15 +68,12 @@ class RegisterationForm(forms.ModelForm):
         last_name = cleaned_data.get('last_name')
 
         # Custom validation for first_name and last_name
-        if not re.match(r'^[a-zA-Z ]+$', first_name):
-            raise forms.ValidationError(
-                "First name can only contain letters and spaces!"
-            )
-           
+        if not first_name or not first_name.isalpha():
+            raise forms.ValidationError("First name can only contain letters.")
 
-        if not re.match(r'^[a-zA-Z ]+$', last_name):
+        if not last_name or not last_name.isalpha():
             raise forms.ValidationError(
-                "Last name can only contain letters and spaces!"
+                "Last name can only contain letters!"
             )
         
         
