@@ -6,130 +6,151 @@
 {% block content %}
 <!-- Body Start -->
 <div class="wrapper">
-    <div class="gambo-Breadcrumb">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
-                            <li class="breadcrumb-item active" aria-current="page"><a href="{% url 'dashboard' %}">User
-                                    Dashboard</a></li>
-                            <li class="breadcrumb-item"><a href="{% url 'edit_profile' %}">Edit Profile</a></li>
-                            
-                                    {% include 'userside/includes/alert.html' %}
+  <div class="gambo-Breadcrumb">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+              <li class="breadcrumb-item active" aria-current="page"><a href="{% url 'dashboard' %}">User
+                  Dashboard</a></li>
+              <li class="breadcrumb-item"><a href="{% url 'edit_profile' %}">Edit Profile</a></li>
 
-                        </ol>
-                    </nav>
+              {% include 'userside/includes/alert.html' %}
+              {% include 'userside/includes/form.html' %}
 
-                </div>
-            </div>
+
+
+            </ol>
+          </nav>
+
         </div>
+      </div>
     </div>
+  </div>
 
-    <div class="mb-5">
-        <div class="container">
-            <div class="row">
-                {% include 'userside/partial/dashboard_sidebar.html' %}
+  <div class="mb-5">
+    <div class="container">
+      <div class="row">
 
-                <div class="col-lg-6 col-md-12">
-                    <div class="pdpt-bg">
-                        <div class="pdpt-title" style="background-color:  black ">
-                            <h4 style="color: aliceblue;">Edit Your Profile</h4>
-                        </div>
-                        <!-- <main class="col-md-9"> -->
-                            <article class="card">
-                              <!-- <header class="card-header">
+        {% include 'userside/partial/dashboard_sidebar.html' %}
+
+        <div class="col-lg-6 col-md-12">
+          <div class="pdpt-bg">
+            <div class="pdpt-title" style="background-color:  black ">
+              <h4 style="color: aliceblue;">Edit Your Profile</h4>
+            </div>
+            <!-- <main class="col-md-9"> -->
+            <article class="card">
+              <!-- <header class="card-header">
                                 <strong class="d-inline-block mr-3">Edit your profile</strong>
                               </header> -->
-                              <div class="card-body">
-                              <div class="text-right">
-                              {% if userprofile.profile_picture.url != '' %}
-                              <img src="{{userprofile.profile_picture.url}}" alt="profile picture" width="100" height="100" style="border-radius:60px;">
-                              {%endif%}
-                              </div>
-                                <div class="row">
-                                  <div class="col-md-12">
-                                    <form action="{% url 'edit_profile' %}" method="POST" enctype="multipart/form-data">
-                                      {% csrf_token %}
-                                      <div class="form-row">
-                                        <div class="form-group col-md-6">
-                                          <label>First name</label>
-                                         {{user_form.first_name}}
-                                       
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                          <label>Last name</label>
-                                          {{user_form.last_name}}
-                                       
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                        
-                                          <label>Phone number</label>
-                                         {% comment %} {{user_form.phone}} {% endcomment %}
-                                         <input type="text" name="phone_number" value="{{user.phone_number}}" onkeyup="validateEditProfMobilenumber()" class="form-control"  id="id_phone">
-                                          <span id="mobilenumber-error"class='change'></span>
-                    
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                          <label>Profile pitcure</label>
-                                          {{profile_form.profile_picture}}
-                                        
-                                        </div>
-                                      </div>
-                                      <div class="form-group">
-                                      <label>email</label>
-                                       {% comment %} {{user_form.email}} {% endcomment %}
-                                       <input type="email" name="email" value="{{user.email}}" maxlength="254" onkeyup="validateEditProfEmail()" class="form-control"  id="id_email">
-                                           <span id="email-error"class='change'></span>
-                                       
-                                      
-                                      </div>
-                                      <div class="form-group">
-                                      <label>Address Line 1</label>
-                                       {{profile_form.address_line_1}}
-                                      
-                                      
-                                      </div>
-                                      <div class="form-group">
-                                      <label>Address Line 2</label>
-                                       
-                                       {{profile_form.address_line_2}}
-                                       
-                                     
-                                      </div>
-                                               <div class="form-row">
-                                        <div class="form-group col-md-4">
-                                          <label>City</label>
-                                          {{profile_form.city}}
-                                       
-                                         
-                                        </div>
-                                        <div class="form-group col-md-4">
-                                          <label>State</label>
-                                         {{profile_form.state}}
-                                       
-                                        </div>
-                                        <div class="form-group col-md-4">
-                                          <label>country</label>
-                                         {{profile_form.country}}
-                                        
-                                        </div>
-                                      </div>
-                                      <input type="submit" value="save" onclick="return validateEditProfForm()" class="next-btn16 hover-btn mt-3">
-                                      <span id="submit-error" class="mt-5"></span>
-                                   
-                                    </form>
-                                  </div>
-                                </div>
-                              </div>
-                            </article>
-                          <!-- </main> -->
-                    </div>
+              <div class="card-body">
+                <div class="text-right">
+                  {% if userprofile.profile_picture.url != '' %}
+                  <img src="{{userprofile.profile_picture.url}}" alt="profile picture" width="100" height="100"
+                    style="border-radius:60px;">
+                  {%endif%}
                 </div>
-            </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <form action="{% url 'edit_profile' %}" method="POST" enctype="multipart/form-data">
+
+                      {% csrf_token %}
+
+                      {% if user_form.errors %}
+                      <div class="alert alert-danger">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        {% for field, error_list in user_form.errors.items %}
+                        {% for error in error_list %}
+                        {{ error }}
+                        {% endfor %}
+                        {% endfor %}
+                      </div>
+                      {% endif %}
+
+                      <div class="form-row">
+                        <div class="form-group col-md-6">
+                          <label>First name</label>
+                          {{user_form.first_name}}
+
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label>Last name</label>
+                          {{user_form.last_name}}
+
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label>Phone number</label>
+
+                          {% comment %} {{user_form.phone}} {% endcomment %}
+                          <input type="text" name="phone_number" value="{{user.phone_number}}"
+                            onkeyup="validateEditProfMobilenumber()" class="form-control" id="id_phone">
+                          <span id="mobilenumber-error" class='change'></span>
+
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label>Profile pitcure</label>
+                          {{profile_form.profile_picture}}
+
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label>email</label>
+                        {% comment %} {{user_form.email}} {% endcomment %}
+                        <input type="email" name="email" value="{{user.email}}" maxlength="254"
+                          onkeyup="validateEditProfEmail()" class="form-control" id="id_email">
+                        <span id="email-error" class='change'></span>
+
+
+                      </div>
+                      <div class="form-group">
+                        <label>Address Line 1</label>
+                        {{profile_form.address_line_1}}
+
+
+                      </div>
+                      <div class="form-group">
+                        <label>Address Line 2</label>
+
+                        {{profile_form.address_line_2}}
+
+
+                      </div>
+                      <div class="form-row">
+                        <div class="form-group col-md-4">
+                          <label>City</label>
+                          {{profile_form.city}}
+
+
+                        </div>
+                        <div class="form-group col-md-4">
+                          <label>State</label>
+                          {{profile_form.state}}
+
+                        </div>
+                        <div class="form-group col-md-4">
+                          <label>country</label>
+                          {{profile_form.country}}
+
+                        </div>
+                      </div>
+                      <input type="submit" value="save" onclick="return validateEditProfForm()"
+                        class="next-btn16 hover-btn mt-3">
+                      <span id="submit-error" class="mt-5"></span>
+
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </article>
+            <!-- </main> -->
+          </div>
         </div>
-    </div> 
+      </div>
+    </div>
+  </div>
 
 
-    {% endblock content %}
+  {% endblock content %}

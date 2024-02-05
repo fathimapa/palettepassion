@@ -3,6 +3,7 @@ from django import forms
 from .models import *
 from phonenumbers.phonenumberutil import NumberParseException
 import re
+from django.core.exceptions import ValidationError
 
 
 
@@ -100,6 +101,22 @@ class EditForm(forms.ModelForm):
 
         for field in self.fields:
             self.fields[field].widget.attrs['class'] = 'form-control'
+
+    def clean(self):
+        phone_number = self.cleaned_data['phone_number']
+        if not phone_number.isdigit() or len(phone_number) != 10:
+            raise forms.ValidationError("Invalid phone number. Please enter a 10-digit number.")
+
+    #     # email = self.cleaned_data.get('email')
+
+        # # Add your custom validation logic for the email field
+        # # For example, you can use Django's built-in EmailValidator
+        # from django.core.validators import validate_email
+
+        # try:
+        #     validate_email(email)
+        # except ValidationError:
+        #     raise forms.ValidationError("Invalid email address.")
 
 
 

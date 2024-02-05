@@ -66,12 +66,16 @@ def edit_profile(request):
             messages.success(request,'Your profile has been updated')
             return redirect('edit_profile')
         else:
-            for field_name , error_messages in user_form.errors.items():
+            for field_name, error_messages in user_form.errors.items():
+                for error_message in error_messages:
+                    messages.error(request, f"Error in {field_name}: {error_message}")
                 print("error in" ,field_name,error_messages)
             return redirect('edit_profile')
     else:
         user_form = EditForm(instance=request.user)
         profile_form = UserProfileForm(instance=userprofile)
+
+        
     context= {
         'user_form':user_form,
         'profile_form':profile_form,
