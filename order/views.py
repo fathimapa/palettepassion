@@ -99,7 +99,7 @@ def payments_completed(request):
         return render(request,'userside/order/payment_success.html',context)
     except Exception as e:
         print(e)
-        return redirect('index')
+        return redirect(reverse('payment_failed'))
 
 def place_order(request, total=0, quantity=0):
     current_user = request.user
@@ -279,7 +279,7 @@ def cash_on_delivery(request, id):
         return render(request, 'userside/order/order_success.html', context)
     except Exception as e:
         print(e)
-        return redirect('index')
+        return redirect(reverse('payment_failed'))
 
 
 
@@ -468,4 +468,16 @@ def wallet(request,id):
     except Exception as e:
         print(e)
         print('potti')
-        return redirect('index')
+        return redirect(reverse('payment_failed'))
+    
+
+def payment_failed(request):
+    context = {
+    'method': request.GET.get('method'),
+    'error_code': request.GET.get('error_code'),
+    'error_description': request.GET.get('error_description'),
+    'error_reason': request.GET.get('error_reason'),
+    'error_payment_id': request.GET.get('error_payment_id'),
+    'error_order_id': request.GET.get('error_order_id')
+    }
+    return render(request, 'userside/order/payment_fail.html',context)
