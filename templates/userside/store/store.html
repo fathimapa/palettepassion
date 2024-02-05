@@ -141,11 +141,7 @@
                                 </div>
                             </a>
                             <div class="product-text-dt">
-                                {% if variant.product.stock <= 0 %} 
-                                <h6 class='text-danger text-center mt-3'>Out Of Stock</h6>
-                                {% else %}
-                                    <p>Available<span>(In Stock)</span></p>
-                                {% endif %}
+                                
                                     <a href="{{ product.get_url }}">{{product.product_name}}</a>
                                     <div class="product-price">${{product.price}}</div>
 

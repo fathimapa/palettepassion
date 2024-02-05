@@ -40,8 +40,11 @@ def index(request):
 @login_required(login_url='login')
 def dashboard(request):
     userprofile = UserProfile.objects.get(user=request.user)
+    orders_count = Order.objects.filter(user=request.user,is_ordered=True).order_by('-id').count()
+
     context= {
         'userprofile':userprofile,
+        'orders_count':orders_count,
         }
 
     return render(request , 'userside/userprofile/dashboard.html',context)
