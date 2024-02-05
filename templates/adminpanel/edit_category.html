@@ -16,6 +16,8 @@
         <h4>Edit Category Details</h4>
         <div class="content_box_border">
             {% include 'userside/includes/alert.html' %}
+            {% include 'userside/includes/form.html' %}
+
             <form enctype="multipart/form-data" class="container" method="post" id="product_form">
                 {% csrf_token %}
                 <div class="card">

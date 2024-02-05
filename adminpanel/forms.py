@@ -7,6 +7,8 @@ from banner_management.models import *
 from django_countries.fields import CountryField
 from bootstrap_datepicker_plus.widgets import DatePickerInput
 import warnings
+from PIL import Image
+
 warnings.filterwarnings("ignore", category=FutureWarning)
 
 
@@ -43,6 +45,7 @@ class ProductForm(forms.ModelForm):
             'is_available': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             'category': forms.Select(attrs={'class': 'form-control'}),
         }
+
         def __init__(self, *args, **kwargs):
             super().__init__(*args, **kwargs)
 
@@ -50,6 +53,26 @@ class ProductForm(forms.ModelForm):
             product_name = self.initial.get('product_name')
             if product_name:
                 self.initial['slug'] = slugify(product_name)
+
+        def clean(self):
+            price = self.cleaned_data['price']
+
+            if price < 0:
+                raise forms.ValidationError("Price cannot be negative.")
+
+            image = self.cleaned_data.get('image')
+
+            if image:
+            # Check if the uploaded file is an image
+                try:
+                    with Image.open(image) as img:
+                    # You can add more checks if needed, such as file size or image dimensions
+                        if img.format.lower() not in ['jpeg', 'png', 'gif']:
+                            raise forms.ValidationError(
+                            "Only JPEG, PNG, or GIF images are allowed.")
+                except Exception as e:
+                    raise forms.ValidationError("Invalid image file.")
+
 
 class ProductGalleryForm(forms.ModelForm):
     class Meta:
@@ -68,8 +91,8 @@ class VariationForm(forms.ModelForm):
         ('extralarge', 'Extra Large'),
 
     ]
-    size = forms.ChoiceField(choices=SIZE_CHOICES, widget=forms.Select(attrs={'class': 'form-control'}))
-
+    size = forms.ChoiceField(choices=SIZE_CHOICES, widget=forms.Select(
+        attrs={'class': 'form-control'}))
 
     class Meta:
         model = Variation
@@ -78,22 +101,41 @@ class VariationForm(forms.ModelForm):
             'price': forms.NumberInput(attrs={'class': 'form-control'}),
             'stock': forms.NumberInput(attrs={'class': 'form-control'}),
         }
-
     
+    def clean(self):
+        size = self.cleaned_data['size']
+        product = self.cleaned_data['product']
+        price = self.cleaned_data['price']
+
+        if price < 0:
+            raise forms.ValidationError("Price cannot be negative.")
+        
+
+        # Check if a variation with the same size choice already exists for the product
+        existing_variations = Variation.objects.filter(product=product, size=size)
+        
+        if self.instance and self.instance.pk:
+            # Exclude the current instance when checking for existing variations during update
+            existing_variations = existing_variations.exclude(pk=self.instance.pk)
+
+        if existing_variations.exists():
+            raise forms.ValidationError(f'A variation with size "{size}" already exists for this product.')
 
 
 class OrderForm(forms.ModelForm):
 
     STATUS = [
         ('Order Confirmed', 'Order Confirmed'),
-        ('Shipped',"Shipped"),
-        ('Out for delivery',"Out for delivery"),
+        ('Shipped', "Shipped"),
+        ('Out for delivery', "Out for delivery"),
         ('Delivered', 'Delivered'),
-        ('Cancelled','Cancelled'),
-        ('Returned','Returned'),
+        ('Cancelled', 'Cancelled'),
+        ('Returned', 'Returned'),
     ]
-    status = forms.ChoiceField(choices=STATUS, widget=forms.Select(attrs={'class': 'form-control'}))
-
+    status = forms.ChoiceField(
+        choices=STATUS, widget=forms.Select(attrs={'class': 'form-control'}))
+    
+    
 
     class Meta:
         model = Order
@@ -118,7 +160,6 @@ class OrderForm(forms.ModelForm):
             'return_reason': forms.TextInput(attrs={'class': 'form-control'}),
         }
 
-    
 
 ImageFormSet = inlineformset_factory(
     Product, ProductGallery, form=ProductGalleryForm,
@@ -126,12 +167,11 @@ ImageFormSet = inlineformset_factory(
 )
 
 
-
 class CouponForm(forms.ModelForm):
     class Meta:
         model = Coupon
         fields = ['code', 'discount', 'min_value', 'valid_to', 'active']
-        
+
         widgets = {
             'code': forms.TextInput(attrs={'class': 'form-control'}),
             'discount': forms.NumberInput(attrs={'class': 'form-control'}),
