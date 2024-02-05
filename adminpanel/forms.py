@@ -18,18 +18,17 @@ class CategoryForm(forms.ModelForm):
         fields = '__all__'
         widgets = {
             'category_name': forms.TextInput(attrs={'class': 'form-control'}),
-            'slug': forms.SlugField(attrs={'class': 'form-control'}),
+            'slug': forms.TextInput(attrs={'class': 'form-control'}),
             'description': forms.Textarea(attrs={'class': 'form-control'}),
             'category_image': forms.ClearableFileInput(attrs={'class': 'form-control'}),
             'is_active': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }
 
-    def clean(self):
-        cleaned_data = super().clean()
-        category_name = cleaned_data.get('category_name')
-        if category_name:
-            cleaned_data['slug'] = slugify(category_name)
-        return cleaned_data
+    # def clean(self):
+    #     cleaned_data = super().clean()
+    #     category_name = cleaned_data.get('category_name')
+    #     if category_name:
+    #         cleaned_data['slug'] = slugify(category_name)
 
 
 class ProductForm(forms.ModelForm):
