@@ -131,7 +131,10 @@ def update_cart(request):
         product = Product.objects.get(pk=prod_id)
 
         if quantity <= 0:
+            # messages.warning(request,"Quantity can't be less than 0")
             return JsonResponse({"status:Quantity can't be less than 0"})
+        
+        
 
         if product.variation_set.exists():
             variation = Variation.objects.get(
@@ -139,7 +142,7 @@ def update_cart(request):
 
             if variation.stock >= quantity:
                 update_cart_item(request.user, cart, prod_id,
-                                 quantity, variation)
+                                quantity, variation)
                 cart_items = CartItem.objects.filter(user=request.user)
                 total = sum((cart_item.product.price + cart_item.size_variant.price)
                             * cart_item.quantity for cart_item in cart_items)
@@ -159,10 +162,8 @@ def update_cart(request):
                 }
 
                 return JsonResponse(response_data)
-
             else:
-                messages.warning(
-                    request, 'Not enough stock for the selected variation')
+                
                 return JsonResponse({'status': 'failed'})
 
         # else:
