@@ -1,5 +1,5 @@
 
-<div class="logo-container"><img style="height: 18px;" src="https://app.useanvil.com/img/email-logo-black.png" /></div>
+<div class="logo-container">PalettePassion</div>
 <table class="invoice-info-container">
     <tbody>
         <tr>
@@ -50,7 +50,9 @@
     <thead>
         <tr>
             <th>Payment Info</th>
+            {% if orders.payment.payment_method == 'Cash on Delivery'%}
             <th>Due By</th>
+            {% endif %}
             <th>Total Due</th>
         </tr>
     </thead>
@@ -60,13 +62,15 @@
                 <div>Account No: <strong>{{orders.payment.payment_id}}</strong></div>
                 <div>Routing No: <strong>120000547</strong></div>
             </td>
-            <td class="large">{{orders.created_at}}</td>
+            {% if orders.payment.payment_method == 'Cash on Delivery'%}
+            <td class="large">{{formatted_delivery_date}}</td>
+            {% endif %}
             <td class="large total">${{orders.order_total}}</td>
         </tr>
     </tbody>
 </table>
 <div class="footer">
-    <div class="footer-info">hello@useanvil.com | 555 444 6666 | useanvil.com</div>
+    <div class="footer-info">hello@palettepassion.com | 555 444 6666 | palettepassion.com</div>
     <div class="footer-thanks"><img src="https://github.com/anvilco/html-pdf-invoice-template/raw/main/img/heart.png"
             alt="heart" />Thank you!</div>
 </div>
@@ -224,4 +228,18 @@ table tr td:last-child {
 
 
 
+</style>
+<style>
+    /* Apply a Google Font for demonstration purposes */
+    @import url('https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap');
+
+    /* Apply styling to your text */
+    .logo-container {
+        font-family: 'Alfa Slab One', serif;
+        font-size: 32px; /* Adjust font size as needed */
+        color: #333; /* Set text color */
+        font-weight: bold; /* Set font weight to bold */
+        text-transform: uppercase; /* Convert text to uppercase */
+        letter-spacing: 1px; /* Add letter spacing */
+    }
 </style>

@@ -214,6 +214,7 @@ def checkout(request, total=0, quantity=0, cart_items=None):
     grand_total = None
     address = Address.objects.filter(user=request.user)
     form = AddressForm()
+    user = request.user
     try:
         if request.user.is_authenticated:
             cart_items = CartItem.objects.filter(
@@ -230,6 +231,8 @@ def checkout(request, total=0, quantity=0, cart_items=None):
 
         tax = (2 * total)/100
         grand_total = total + tax
+        print(type(grand_total))
+        print(type(user.userprofile.wallet))
 
     except ObjectDoesNotExist:
         pass  # just ignoe

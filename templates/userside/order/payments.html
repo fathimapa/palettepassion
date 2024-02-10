@@ -157,7 +157,6 @@
                         <div class="main-total-cart">
                             <h2>Grand Total</h2>
                             <span>${{grand_total}}</span>
-                            <p>User Wallet: {{ user.userprofile.wallet }}</p>
 
                         </div>
                         <div class="radio-item" >
@@ -165,19 +164,13 @@
                                 data-target="#a{{i.id}}" style="background-color: rgba(0, 0, 0, 0.782); color: whitesmoke; text-align: center;">Cash on Delivery</label>
                         </div>
                         <div class="radio-item" >
-                            {% if user.userprofile.wallet|floatformat >= grand_total|floatformat %}
-                            <div>{{order.order}}</div>
+                            {% if user.userprofile.wallet|floatformat:"-2" >= grand_total %}
                             <button type="submit" data-toggle="modal" data-target="#b{{i.id}}" class="btn btn-danger btn-lg btn-block mb-2">Wallet Payment
                                     </button>
                             {% endif %}
-                        
-                        
-                        
                         </div>
                         
                         <div id="paypal-button-container"></div>  
-                    </div>
-                    <a href="#" class="promo-link45">Have a promocode?</a>
                     
                 </div>
             </div>

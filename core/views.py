@@ -332,8 +332,13 @@ def generate_invoice_pdf(request,order_id):
     shipping = (2*total)/100
 
     today_date = datetime.today().strftime("%d %b, %Y")
+    format_today_date = datetime.today()
     month = datetime.today().strftime("%B")
     invoice_number = generate_invoice_number("INV")
+    delivery_date = format_today_date + timedelta(days=7)
+
+    # Format the delivery date as desired
+    formatted_delivery_date = delivery_date.strftime("%d %b, %Y")
 
 
 
@@ -348,6 +353,7 @@ def generate_invoice_pdf(request,order_id):
         'today_date':today_date,
         'month':month, 
         'invoice_number':invoice_number,
+        'formatted_delivery_date':formatted_delivery_date,
     }
 
     template_loader = jinja2.FileSystemLoader('./')

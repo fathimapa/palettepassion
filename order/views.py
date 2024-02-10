@@ -298,21 +298,24 @@ def coupons(request):
                 grand_total = format(grand_total,'.2f')
                 coupon_discount = format(coupon_discount,'.2f')
                 msg = 'Coupon Applied successfully'
+                status = True
                 instance.used = True
                 instance.save()
 
             else:
                 msg = 'this coupon is only applicable for orders more than $'+str(instance.coupon.min_value)+'\- only'
-
+                status = False
         except:
             msg = 'coupon is not valid'
+            status = False
+
 
         response ={
             'grand_total':grand_total,
             'msg': msg,
             'coupon_discount' :coupon_discount,
             'coupon_code':coupon_code,
-
+            'status':status
         }
 
     return JsonResponse(response)
