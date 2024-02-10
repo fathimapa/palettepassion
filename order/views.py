@@ -339,7 +339,8 @@ def cancel_order(request,id):
 
     profile = UserProfile.objects.get(user=request.user) 
     print(profile)
-    profile.wallet = 0.0
+    if profile.wallet == 0:
+        profile.wallet = 0.0
     if payment.status == 'True':
         print('hlo')
         print(payment.amount_paid)
@@ -383,7 +384,8 @@ def return_order(request, id):
         print(variation)
 
     profile = UserProfile.objects.get(user=request.user) 
-    profile.wallet = 0.0
+    if profile.wallet == 0:
+        profile.wallet = 0.0    
     if payment.status == 'True':
         print(payment.amount_paid)
         profile.wallet += payment.amount_paid
